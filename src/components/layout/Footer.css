@@ -1,0 +1,88 @@
+/* Plain solid footer — the same colour in light and dark mode */
+.foot {
+  background: #0b1a3a;
+  color: rgba(255, 255, 255, 0.7);
+  padding: 40px 0 22px;
+  font-size: var(--fs-sm);
+}
+
+.foot__grid { display: grid; gap: 28px; }
+
+.foot__logo-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+
+/* All-white logo in the footer (symbol + wordmark).
+   Extra specificity so the dark-mode wordmark rule in Logo.css can't tint the "F" orange. */
+.foot .logo img.logo__symbol,
+.foot .logo img.logo__wordmark { filter: brightness(0) invert(1); }
+
+.foot__desc { color: rgba(255, 255, 255, 0.7); margin: 20px 0 18px; max-width: 360px; }
+
+.foot__contact { list-style: none; padding: 0; margin: 0 0 20px; display: grid; gap: 8px; }
+.foot__contact a { display: inline-flex; align-items: center; gap: 8px; color: #fff; font-weight: 500; transition: opacity 0.2s; }
+.foot__contact svg { font-size: 0.95rem; opacity: 0.8; }
+.foot__contact a:hover { opacity: 0.8; }
+/* Small social icons in their original brand style */
+.foot__social { display: flex; gap: 10px; }
+.foot__soc {
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  font-size: 0.95rem;
+  color: #fff;
+  transition: transform 0.2s var(--ease);
+}
+.foot__soc:hover { transform: translateY(-2px); }
+.foot__soc--instagram {
+  border-radius: 8px;
+  background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285aeb 90%);
+}
+.foot__soc--whatsapp { border-radius: 8px; background: #25d366; font-size: 1rem; }
+.foot__soc--reddit { border-radius: 8px; background: #ff4500; }
+
+/* Desktop-only column ("Work with us") */
+.foot__desktop { display: none; }
+
+/* Link columns: side by side on mobile, with a divider above */
+.foot__links {
+  display: grid;
+  gap: 20px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+.foot__col h4 {
+  color: #fff;
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 12px;
+}
+.foot__col ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
+.foot__col a { color: rgba(255, 255, 255, 0.7); transition: color 0.2s; }
+.foot__col a:hover { color: #fff; }
+
+.foot__bottom {
+  margin-top: 26px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.55);
+  font-size: var(--fs-xs);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+@media (min-width: 768px) {
+  .foot__bottom { flex-direction: row; justify-content: space-between; gap: 12px; }
+}
+
+@media (min-width: 1024px) {
+  .foot { padding: 64px 0 24px; }
+  .foot__grid { grid-template-columns: 1.5fr 1fr 1fr; gap: 48px; }
+  .foot__links { display: contents; }
+  .foot__desktop { display: block; }
+  .foot__logo-row { max-width: 360px; }
+  .foot__col .foot__desc { margin-top: 0; }
+  .foot__cta { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
+}

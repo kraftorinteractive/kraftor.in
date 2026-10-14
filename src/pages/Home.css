@@ -1,0 +1,23 @@
+.home__gap { height: var(--stack); }
+
+/* ---------- Registered strip (tablet & desktop only) ---------- */
+.trust { display: none; }
+.trust__row { display: flex; flex-wrap: wrap; gap: 10px; }
+.trust__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  color: var(--ink);
+}
+.trust__item svg { color: var(--orange); font-size: 1rem; }
+.trust__item:nth-child(2) svg { color: var(--blue-deep); }
+@media (min-width: 768px) {
+  .trust { display: block; }
+  .trust__item { padding: 11px 18px; }
+}

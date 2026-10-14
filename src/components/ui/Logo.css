@@ -1,0 +1,31 @@
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.logo__symbol {
+  height: 34px;
+  width: auto;
+}
+
+.logo__wordmark {
+  height: 15px;
+  width: auto;
+}
+
+/* On dark backgrounds: black letters → white, while the orange bar stays orange
+   (invert flips the lightness, hue-rotate swings the colour back) */
+.logo--on-dark .logo__wordmark,
+:root[data-theme='dark'] .logo__wordmark {
+  filter: invert(1) hue-rotate(180deg);
+}
+
+@media (min-width: 1024px) {
+  .logo--md .logo__symbol { height: 40px; }
+  .logo--md .logo__wordmark { height: 18px; }
+}
+
+.logo--lg .logo__symbol { height: 42px; }
+.logo--lg .logo__wordmark { height: 19px; }

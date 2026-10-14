@@ -1,0 +1,77 @@
+.mmenu {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  display: flex;
+  flex-direction: column;
+  padding: calc(var(--nav-h) + 24px) var(--gutter) calc(24px + env(safe-area-inset-bottom));
+  background: var(--surface);
+  overflow-y: auto;
+  transform: translateX(100%);
+  visibility: hidden;
+  transition: transform 0.45s var(--ease), visibility 0s linear 0.45s;
+}
+.mmenu.is-open {
+  transform: translateX(0);
+  visibility: visible;
+  transition: transform 0.45s var(--ease), visibility 0s;
+}
+
+/* ---------- Links ---------- */
+.mmenu__links { display: flex; flex-direction: column; }
+
+.mmenu__link {
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line);
+  font-family: var(--font-head);
+  font-size: var(--fs-h2);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  opacity: 0;
+  transform: translateX(24px);
+  transition: opacity 0.35s, transform 0.45s var(--ease), color 0.2s;
+}
+.mmenu.is-open .mmenu__link {
+  opacity: 1;
+  transform: none;
+  transition-delay: calc(0.12s + var(--i) * 0.04s);
+}
+.mmenu__link.active { color: var(--orange); }
+
+/* ---------- Contact buttons ---------- */
+.mmenu__actions {
+  margin-top: auto;
+  padding-top: 32px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  opacity: 0;
+  transition: opacity 0.35s 0.3s;
+}
+.mmenu.is-open .mmenu__actions { opacity: 1; }
+
+.mmenu__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 12px 6px;
+  border-radius: 999px;
+  border: 1.5px solid var(--line);
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  color: var(--ink);
+  white-space: nowrap;
+}
+.mmenu__btn svg { font-size: 1rem; }
+.mmenu__btn:active { transform: scale(0.96); }
+.mmenu__btn--primary {
+  background: var(--grad-primary);
+  border-color: transparent;
+  color: #fff;
+}
+
+@media (min-width: 1024px) {
+  .mmenu { display: none; }
+}

@@ -1,0 +1,112 @@
+.ph-head { padding-top: var(--nav-h); }
+
+/* Slim "aurora" banner under the navigation: no images or text.
+   Yellow, orange and blue glows float over a deep navy base and slowly
+   trade places, so the colours keep changing without muddying each other. */
+.ph-banner {
+  position: relative;
+  height: 96px;
+  width: 100%;
+  overflow: hidden;
+  isolation: isolate;
+  background: #08132e;
+}
+
+/* Floating colour glows */
+.ph-banner__blob {
+  position: absolute;
+  width: 60%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  filter: blur(36px);
+}
+.ph-banner__blob--a {
+  left: -20%;
+  top: -130%;
+  background: radial-gradient(circle, #ffc21a, #ff8a00 55%, transparent 70%);
+  animation: ph-float-a 12s ease-in-out infinite alternate;
+}
+.ph-banner__blob--b {
+  right: -20%;
+  top: -110%;
+  background: radial-gradient(circle, #3b9bff, #1e5bff 55%, transparent 70%);
+  animation: ph-float-b 14s ease-in-out infinite alternate;
+}
+.ph-banner__blob--c {
+  left: 25%;
+  top: -90%;
+  width: 45%;
+  background: radial-gradient(circle, #ff6a00, #ff3d00 55%, transparent 70%);
+  opacity: 0.85;
+  animation: ph-float-c 10s ease-in-out infinite alternate;
+}
+@keyframes ph-float-a { to { transform: translate(90%, 30%) scale(1.1); } }
+@keyframes ph-float-b { to { transform: translate(-95%, 25%) scale(0.95); } }
+@keyframes ph-float-c { to { transform: translate(-60%, 20%) scale(1.2); } }
+
+/* Fine white grid on top */
+.ph-banner__grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+  background-size: 18px 18px;
+  background-position: -1px -1px;
+}
+
+@media (min-width: 1024px) {
+  .ph-banner { height: 140px; }
+  .ph-banner__grid { background-size: 22px 22px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ph-banner__blob { animation: none; }
+}
+
+/* Breadcrumb · heading · info · filter */
+.ph-head__body { padding-top: 28px; }
+.ph-head__body > * { animation: head-in 0.6s var(--ease) both; }
+.ph-head__body > :nth-child(2) { animation-delay: 0.05s; }
+.ph-head__body > :nth-child(3) { animation-delay: 0.1s; }
+.ph-head__body > :nth-child(4) { animation-delay: 0.15s; }
+
+.ph-crumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+.ph-crumb a { color: var(--orange); }
+.ph-crumb a:hover { text-decoration: underline; }
+.ph-crumb [aria-current] { color: var(--ink); }
+
+.ph-head__title { font-size: var(--fs-h2); margin-bottom: 8px; }
+.ph-head__text { color: var(--muted); font-size: var(--fs-body); max-width: 520px; margin: 0; }
+.ph-head__filter { margin-top: 20px; }
+
+/* Divider: a 1px hairline with a short brand-gradient accent on the left */
+.ph-divider {
+  position: relative;
+  height: 1px;
+  margin-top: 24px;
+  background: var(--line);
+}
+.ph-divider::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 40px;
+  height: 1px;
+  background: var(--grad-primary);
+}
+
+@media (min-width: 1024px) {
+  .ph-head__body { padding-top: 48px; }
+}

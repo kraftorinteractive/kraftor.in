@@ -1,0 +1,156 @@
+.al {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(150deg, #071c4d 0%, #0a3a9a 55%, #1565e0 100%);
+  color: #fff;
+  display: grid;
+  box-shadow: 0 24px 50px rgba(0, 47, 130, 0.28);
+}
+/* Warm glow so the blue card still carries the brand orange */
+.al::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  right: -80px;
+  top: -80px;
+  width: 280px;
+  height: 280px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 138, 0, 0.45), transparent 65%);
+}
+
+/* ---------- Art: app icon + rings ---------- */
+.al__art {
+  position: relative;
+  height: 220px;
+  display: grid;
+  place-items: center;
+  order: -1;
+}
+.al__ring {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  transform: translate(-50%, -50%);
+  animation: al-pulse 4s ease-out infinite;
+}
+.al__ring--1 { width: 130px; height: 130px; }
+.al__ring--2 { width: 190px; height: 190px; animation-delay: 0.6s; }
+.al__ring--3 { width: 250px; height: 250px; animation-delay: 1.2s; border-style: dashed; }
+@keyframes al-pulse {
+  0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
+  50% { opacity: 1; transform: translate(-50%, -50%) scale(1.04); }
+}
+
+.al__icon {
+  position: relative;
+  width: 96px;
+  height: 96px;
+  border-radius: 26px;
+  background: #fff;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35), 0 0 0 6px rgba(255, 255, 255, 0.08);
+  animation: al-float 5s ease-in-out infinite;
+}
+.al__icon img { width: 58px; }
+@keyframes al-float { 50% { transform: translateY(-8px) rotate(-3deg); } }
+
+.al__tag {
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(8px);
+  animation: al-float 6s ease-in-out infinite;
+}
+.al__tag svg { color: var(--yellow); }
+.al__tag--a { left: 12%; top: 34px; animation-delay: -2s; }
+.al__tag--b { right: 10%; bottom: 30px; animation-delay: -4s; }
+.al__tag--b svg { color: #4ade80; }
+
+/* ---------- Text ---------- */
+.al__text { position: relative; padding: 0 20px 24px; }
+.al__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  margin-bottom: 12px;
+}
+.al__dot { width: 7px; height: 7px; border-radius: 50%; background: var(--yellow); animation: al-blink 1.2s ease-in-out infinite; }
+@keyframes al-blink { 50% { opacity: 0.25; } }
+.al h2 { color: #fff; margin-bottom: 6px; }
+.al p { color: rgba(255, 255, 255, 0.78); margin-bottom: 18px; }
+
+.al__features { list-style: none; padding: 0; margin: 0 0 22px; display: flex; flex-wrap: wrap; gap: 8px; }
+.al__features li {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 12px;
+  border-radius: 999px;
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+}
+.al__features svg { color: var(--yellow); }
+
+.al__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+
+/* Google Play style badge */
+.al__play {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 16px 9px 12px;
+  border-radius: 12px;
+  background: #000;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #fff;
+}
+.al__play-icon { font-size: 1.35rem; color: #34d399; }
+.al__play span { display: flex; flex-direction: column; line-height: 1.15; }
+.al__play small { font-size: 0.62rem; opacity: 0.75; text-transform: uppercase; letter-spacing: 0.04em; }
+.al__play strong { font-size: 1rem; font-weight: 600; }
+
+.al__notify {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  color: var(--ink);
+  background: #fff;
+  transition: transform 0.25s var(--ease);
+}
+.al__notify:hover { transform: translateY(-2px); }
+
+@media (min-width: 768px) {
+  .al { grid-template-columns: 1.1fr 0.9fr; align-items: center; }
+  .al__art { order: 0; height: 340px; }
+  .al__text { padding: 48px 0 48px 48px; }
+  .al__ring--1 { width: 170px; height: 170px; }
+  .al__ring--2 { width: 250px; height: 250px; }
+  .al__ring--3 { width: 330px; height: 330px; }
+  .al__icon { width: 128px; height: 128px; border-radius: 34px; }
+  .al__icon img { width: 76px; }
+}

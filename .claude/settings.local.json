@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell($c = Get-Content \"C:\\\\Alphaz\\\\Github\\\\kraftor.in\\\\src\\\\App.jsx\" -Raw; foreach\\($n in 20,26,28,37,41,48,50,51\\){ $l = \\($c -split \"`n\"\\)[$n-1]; \"---- line $n \\(len $\\($l.Length\\)\\)\"; $l.Substring\\(0,[Math]::Min\\(3500,$l.Length\\)\\) })",
+      "PowerShell($c = Get-Content \"C:\\\\Alphaz\\\\Github\\\\kraftor.in\\\\src\\\\App.jsx\" -Raw; $l=\\($c -split \"`n\"\\)[50]; $l.Substring\\(3500\\); \"-----\"; Get-Content \"C:\\\\Alphaz\\\\Github\\\\kraftor.in\\\\README.md\")",
+      "PowerShell($src=\"C:\\\\Alphaz\\\\Github\\\\kraftor.in\\\\public\\\\assets\"; $dst=\"C:\\\\Shahnawaj\\\\Kraftor\\\\Github\\\\kraftor.in\\\\public\\\\assets\"; New-Item -ItemType Directory -Force $dst | Out-Null; Get-ChildItem $src -File | Where-Object { $_.Name -notin 'k-icon.png','logo.png' } | Copy-Item -Destination $dst; \\(Get-ChildItem $dst\\).Count; python -c \"import PIL; print\\('PIL', PIL.__version__\\)\"; Get-Content \"$src\\\\Kraftor-Company-Profile.pdf\" -TotalCount 5)",
+      "PowerShell(Remove-Item \"C:\\\\Shahnawaj\\\\Kraftor\\\\Github\\\\kraftor.in\\\\public\\\\assets\\\\kraftor-hero-v1.png\" -Confirm:$false; Move-Item \"C:\\\\Shahnawaj\\\\Kraftor\\\\Github\\\\kraftor.in\\\\public\\\\assets\\\\Kraftor-Company-Profile.pdf\" \"C:\\\\Shahnawaj\\\\Kraftor\\\\Github\\\\kraftor.in\\\\public\\\\company-profile.pdf\" -Force; \\(Get-ChildItem \"C:\\\\Shahnawaj\\\\Kraftor\\\\Github\\\\kraftor.in\\\\public\\\\assets\"\\).Count)",
+      "PowerShell(Copy-Item \"C:\\\\Alphaz\\\\Github\\\\kraftor.in\\\\src\\\\policies.json\" \"C:\\\\Shahnawaj\\\\Kraftor\\\\Github\\\\kraftor.in\\\\src\\\\data\\\\policies.json\"; \\(Get-Content \"C:\\\\Shahnawaj\\\\Kraftor\\\\Github\\\\kraftor.in\\\\src\\\\data\\\\policies.json\" -Raw\\) -match 'contact.html')",
+      "PowerShell(Set-Location \"C:\\\\Shahnawaj\\\\Kraftor\\\\Github\\\\kraftor.in\"; npm run build; \"{0:N1} MB in public/assets\" -f \\(\\(Get-ChildItem public\\\\assets | Measure-Object Length -Sum\\).Sum/1MB\\))"
+    ]
+  }
+}

@@ -1,0 +1,44 @@
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(17, 17, 17, 0.55);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: flex-end;
+  animation: modal-fade 0.25s ease;
+}
+
+.modal__box {
+  position: relative;
+  width: 100%;
+  max-height: 85vh;
+  overflow-y: auto;
+  background: var(--card);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  padding: 28px var(--gutter) 32px;
+  animation: modal-up 0.35s var(--ease);
+}
+.modal__box h3 { padding-right: 40px; }
+
+.modal__close {
+  position: absolute;
+  top: 18px;
+  right: 16px;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: none;
+  background: var(--surface-2);
+  font-size: 1.2rem;
+  display: grid;
+  place-items: center;
+}
+
+@media (min-width: 768px) {
+  .modal { align-items: center; justify-content: center; padding: 24px; }
+  .modal__box { max-width: 560px; border-radius: var(--radius-lg); padding: 32px; }
+}
+
+@keyframes modal-fade { from { opacity: 0; } }
+@keyframes modal-up { from { transform: translateY(40px); opacity: 0; } }

@@ -1,0 +1,26 @@
+.reveal:not(.reveal--stagger),
+.reveal--stagger > * {
+  opacity: 0;
+  transition:
+    opacity 0.7s var(--ease),
+    transform 0.7s var(--ease);
+  transition-delay: calc(var(--rd, 0ms) + var(--ri, 0) * 80ms);
+}
+
+.reveal--up:not(.reveal--stagger),
+.reveal--up.reveal--stagger > * { transform: translateY(28px); }
+.reveal--left:not(.reveal--stagger),
+.reveal--left.reveal--stagger > * { transform: translateX(36px); }
+.reveal--zoom:not(.reveal--stagger),
+.reveal--zoom.reveal--stagger > * { transform: scale(0.94); }
+
+.reveal.is-in:not(.reveal--stagger),
+.reveal.is-in.reveal--stagger > * {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal:not(.reveal--stagger),
+  .reveal--stagger > * { opacity: 1; transform: none; }
+}

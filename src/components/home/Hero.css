@@ -1,0 +1,358 @@
+.hx {
+  position: relative;
+  overflow: hidden;
+  padding: calc(var(--nav-h) + 32px) 0 calc(var(--section-y) / 2);
+  isolation: isolate;
+}
+
+/* ---------- Background: plain page colour + a faint grid ---------- */
+.hx__bg {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: var(--surface);
+}
+/* Graph-paper look: small grey squares with a slightly darker line every 5 squares */
+.hx__grid {
+  --paper: #fcfcfb;
+  --minor: rgba(17, 17, 17, 0.05);
+  --major: rgba(17, 17, 17, 0.09);
+  position: absolute;
+  inset: 0;
+  background-color: var(--paper);
+  background-image:
+    linear-gradient(var(--major) 1px, transparent 1px),
+    linear-gradient(90deg, var(--major) 1px, transparent 1px),
+    linear-gradient(var(--minor) 1px, transparent 1px),
+    linear-gradient(90deg, var(--minor) 1px, transparent 1px);
+  background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
+  background-position: -1px -1px;
+  /* strongest behind the headline, fading out towards the bottom */
+  mask-image: linear-gradient(to bottom, #000 0%, rgba(0, 0, 0, 0.6) 55%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, rgba(0, 0, 0, 0.6) 55%, transparent 100%);
+}
+:root[data-theme='dark'] .hx__grid {
+  --paper: #030303;
+  --minor: rgba(255, 255, 255, 0.05);
+  --major: rgba(255, 255, 255, 0.1);
+}
+
+.hx__inner { display: grid; gap: 18px; }
+
+/* ---------- Text ---------- */
+.hx__text > * { animation: hx-up 0.8s var(--ease) both; }
+.hx__text > :nth-child(2) { animation-delay: 0.08s; }
+.hx__text > :nth-child(3) { animation-delay: 0.16s; }
+.hx__text > :nth-child(4) { animation-delay: 0.24s; }
+.hx__text > :nth-child(5) { animation-delay: 0.32s; }
+@keyframes hx-up { from { opacity: 0; transform: translateY(22px); } }
+
+.hx__pill {
+  display: none; /* shown from tablet up */
+  align-items: center;
+  gap: 8px;
+  font-size: 0.74rem;
+  font-weight: 600;
+  padding: 6px 12px 6px 10px;
+  border-radius: 999px;
+  background: var(--glass);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 14px;
+  backdrop-filter: blur(6px);
+}
+.hx__pulse {
+  position: relative;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #16a34a;
+}
+.hx__pulse::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: #16a34a;
+  animation: hx-pulse 1.8s ease-out infinite;
+}
+@keyframes hx-pulse { to { transform: scale(3); opacity: 0; } }
+
+.hx__title {
+  font-size: var(--fs-hero);
+  font-weight: 700;
+  line-height: 1.1;
+  margin-bottom: 14px;
+}
+
+/* Rotating word */
+/* Own line so the headline height never jumps as words change */
+.rot { display: block; position: relative; overflow: hidden; padding-bottom: 0.08em; }
+.rot__word {
+  display: inline-block;
+  animation: rot-in 0.55s var(--ease) both;
+  white-space: nowrap;
+}
+@keyframes rot-in {
+  from { transform: translateY(100%); opacity: 0; filter: blur(4px); }
+  to { transform: none; opacity: 1; filter: none; }
+}
+
+.hx__lead { color: var(--muted); font-size: var(--fs-body); max-width: 340px; margin-bottom: 24px; text-wrap: balance; }
+
+.hx__actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.hx__actions .btn { padding: 10px 18px; font-size: var(--fs-sm); }
+
+/* Secondary hero button: simple outline, filled on hover */
+.hx__work {
+  background: var(--surface);
+  border: 1.5px solid var(--ink);
+  color: var(--ink);
+}
+.hx__work .btn__icon { font-size: 0.9em; }
+.hx__work:hover { background: var(--ink); color: var(--surface); border-color: var(--ink); }
+
+.hx__stats {
+  list-style: none;
+  padding: 0;
+  margin: 28px 0 0;
+  display: none; /* shown from tablet up */
+  grid-template-columns: repeat(3, 1fr);
+  background: var(--glass);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  backdrop-filter: blur(8px);
+}
+.hx__stats li { padding: 12px 10px; display: flex; flex-direction: column; }
+.hx__stats li + li { border-left: 1px solid var(--line); }
+.hx__stats strong {
+  font-family: var(--font-head);
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.1;
+  background: var(--grad-primary);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.hx__stats span { font-size: var(--fs-xs); color: var(--muted); margin-top: 2px; line-height: 1.3; }
+
+/* ---------- Reel stage ---------- */
+.hx__stage {
+  position: relative;
+  height: 320px;
+  isolation: isolate;
+  animation: hx-up 0.9s 0.2s var(--ease) both;
+}
+.hx__ring {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 280px;
+  height: 280px;
+  margin: -140px 0 0 -140px;
+  border-radius: 50%;
+  border: 1.5px dashed rgba(0, 71, 179, 0.25);
+  animation: hx-spin 30s linear infinite;
+}
+@keyframes hx-spin { to { transform: rotate(360deg); } }
+
+.hx__card {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 130px;
+  aspect-ratio: 9 / 16;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #0b1020;
+  border: 4px solid var(--card);
+  box-shadow: 0 18px 40px rgba(17, 17, 17, 0.22);
+}
+.hx__card img,
+.hx__card video { width: 100%; height: 100%; object-fit: cover; }
+
+/* Side reels sit back a little so the centre one leads */
+.hx__card--l::after,
+.hx__card--r::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(11, 16, 32, 0.05), rgba(11, 16, 32, 0.35));
+}
+
+/* Centre reel dressed as a phone */
+.hx__card--c { border-width: 5px; border-color: #0c0f17; box-shadow: 0 24px 50px rgba(0, 40, 110, 0.3), 0 0 0 1.5px rgba(255, 255, 255, 0.7); }
+.hx__notch {
+  position: absolute;
+  top: 7px;
+  left: 50%;
+  width: 34%;
+  height: 12px;
+  margin-left: -17%;
+  border-radius: 999px;
+  background: #0c0f17;
+}
+.hx__now {
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  bottom: 8px;
+  padding: 7px 9px 8px;
+  border-radius: 12px;
+  background: rgba(12, 15, 23, 0.45);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: #fff;
+}
+.hx__now-label { display: flex; align-items: center; gap: 6px; font-size: 0.6rem; font-weight: 600; letter-spacing: 0.04em; margin-bottom: 6px; }
+.hx__live { width: 6px; height: 6px; border-radius: 50%; background: #ff4d4d; animation: blink 1.2s ease-in-out infinite; }
+.hx__bar { display: block; height: 3px; border-radius: 3px; background: rgba(255, 255, 255, 0.3); overflow: hidden; }
+.hx__bar i { display: block; height: 100%; background: var(--grad-primary); transform: scaleX(0); transform-origin: left; }
+@keyframes blink { 50% { opacity: 0.3; } }
+
+/* Soft shadow on the "floor" under the cards */
+.hx__floor {
+  position: absolute;
+  left: 50%;
+  bottom: 4px;
+  width: 240px;
+  height: 26px;
+  margin-left: -120px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(0, 40, 110, 0.22), transparent 70%);
+  filter: blur(4px);
+}
+.hx__card--c { width: 150px; margin: -133px 0 0 -75px; z-index: 2; animation: hx-float 6s ease-in-out infinite; }
+.hx__card--l { margin: -110px 0 0 -160px; transform: rotate(-12deg); animation: hx-float-l 7s ease-in-out infinite; }
+.hx__card--r { margin: -110px 0 0 30px; transform: rotate(12deg); animation: hx-float-r 7s -3s ease-in-out infinite; }
+@keyframes hx-float { 50% { transform: translateY(-10px); } }
+@keyframes hx-float-l { 50% { transform: rotate(-9deg) translateY(-8px); } }
+@keyframes hx-float-r { 50% { transform: rotate(9deg) translateY(-8px); } }
+
+.hx__badge {
+  position: absolute;
+  z-index: 3;
+  left: calc(50% - 128px);
+  top: calc(50% + 84px);
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  background: var(--glass);
+  border: 1px solid var(--line);
+  backdrop-filter: blur(10px);
+  display: grid;
+  place-items: center;
+  box-shadow: var(--shadow);
+  animation: hx-float 5s -1s ease-in-out infinite;
+}
+.hx__badge img { width: 28px; }
+
+.hx__chip {
+  position: absolute;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.68rem;
+  font-weight: 600;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: var(--glass);
+  border: 1px solid var(--line);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: var(--ink);
+  box-shadow: 0 10px 24px rgba(0, 40, 110, 0.12);
+  animation: hx-float 6s ease-in-out infinite;
+}
+.hx__chip--a { left: 0; top: 34px; animation-delay: -2s; }
+.hx__chip--b { right: 0; top: 56%; animation-delay: -4s; }
+.dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; }
+.dot--o { background: var(--grad-primary); }
+.dot--b { background: var(--grad-blue); }
+
+/* ---------- Phones: the hero is the landing screen ----------
+   Text, reels and the crossed strips fill exactly one screen height.
+   The reel stage takes whatever height is left, and every card is sized
+   from that height, so the layout fits short and tall phones alike. */
+@media (max-width: 767px) {
+  .hx {
+    min-height: 100vh;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    padding-top: calc(var(--nav-h) + 20px);
+    padding-bottom: 0;
+  }
+  .hx__inner { flex: 1; display: flex; flex-direction: column; gap: 6px; }
+  .hx__lead { margin-bottom: 20px; }
+  .hx__stage { flex: 1; height: auto; min-height: 250px; max-height: 460px; }
+
+  /* Everything inside the stage is placed from the centre using `translate`,
+     so the float/rotate animations (which use `transform`) still work */
+  .hx__ring,
+  .hx__card,
+  .hx__floor {
+    margin: 0;
+    left: 50%;
+    top: 50%;
+  }
+  .hx__ring { width: auto; height: min(80%, 320px); aspect-ratio: 1; translate: -50% -50%; }
+
+  .hx__card { width: auto; height: min(60%, 230px); }
+  .hx__card--c { width: auto; height: min(74%, 290px); translate: -50% -50%; }
+  .hx__card--l { translate: -112% -47%; }
+  .hx__card--r { translate: 12% -47%; }
+
+  .hx__floor { top: auto; bottom: 8%; width: 60%; translate: -50% 0; }
+  .hx__badge { left: 12%; top: auto; bottom: 16%; }
+  .hx__chip--a { left: 4%; top: 12%; }
+  .hx__chip--b { right: 4%; top: 56%; }
+
+  .mqx { flex-shrink: 0; margin-top: 4px; height: 96px; }
+}
+
+/* Short phones (e.g. iPhone SE): tighten so it still fits one screen */
+@media (max-width: 767px) and (max-height: 700px) {
+  .hx { padding-top: calc(var(--nav-h) + 12px); }
+  .hx__title { margin-bottom: 10px; }
+  .hx__lead { margin-bottom: 16px; }
+  .hx__stage { min-height: 200px; }
+  .mqx { height: 84px; }
+}
+
+/* ---------- Tablet / desktop ---------- */
+@media (min-width: 560px) {
+  .hx__actions .btn { padding: 11px 20px; }
+  .hx__stats { max-width: 440px; }
+}
+
+@media (min-width: 768px) {
+  .hx__pill { display: inline-flex; }
+  .hx__stats { display: grid; }
+  .hx__stage { height: 360px; }
+  .hx__ring { width: 320px; height: 320px; margin: -160px 0 0 -160px; }
+  .hx__card { width: 140px; }
+  .hx__card--c { width: 165px; margin: -147px 0 0 -82px; }
+  .hx__card--l { margin: -124px 0 0 -178px; }
+  .hx__card--r { margin: -124px 0 0 38px; }
+  .hx__badge { left: calc(50% - 150px); top: calc(50% + 92px); width: 56px; height: 56px; }
+  .hx__floor { width: 340px; margin-left: -170px; bottom: 0; }
+  .hx__now { left: 10px; right: 10px; bottom: 10px; }
+  .hx__now-label { font-size: 0.68rem; }
+  .hx__badge img { width: 34px; }
+  .hx__chip { font-size: var(--fs-xs); padding: 7px 12px; }
+  .hx__chip--a { left: 10%; }
+  .hx__chip--b { right: 10%; }
+  .hx__stats strong { font-size: 1.5rem; }
+}
+
+@media (min-width: 1024px) {
+  .hx { padding: calc(var(--nav-h) + 48px) 0 calc(var(--section-y) / 2); }
+  .hx__inner { grid-template-columns: 1.1fr 0.9fr; align-items: center; gap: 24px; }
+  .hx__stage { height: 440px; }
+  .hx__chip--a { left: 0; }
+  .hx__chip--b { right: -10px; }
+}

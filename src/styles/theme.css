@@ -1,0 +1,106 @@
+/* ==========================================================
+   Kraftor Interactive — brand tokens
+   Change colors / fonts here and the whole site follows.
+   ========================================================== */
+:root {
+  /* Brand — taken from the K logo */
+  --yellow: #ffb800;
+  --orange: #ff5a00;
+  --orange-mid: #ff8a00;
+  --accent: #d4781a; /* wordmark bar */
+  --blue: #1e90ff;
+  --blue-deep: #0047b3;
+  --blue-tint: #e8f3ff;
+  --orange-tint: #fff4e6;
+
+  --grad-primary: linear-gradient(135deg, var(--yellow) 0%, var(--orange) 100%);
+  --grad-blue: linear-gradient(135deg, var(--blue) 0%, var(--blue-deep) 100%);
+  --grad-soft: linear-gradient(135deg, #fff7e0 0%, #ffe9d6 100%);
+
+  /* Neutrals */
+  --ink: #111111;
+  --ink-2: #2a2e35;
+  --muted: #5b6270;
+  --line: #e7e9ee;
+  --surface: #ffffff;
+  --surface-2: #f7f8fa;
+  --card: #ffffff; /* cards, form, accordion, menu */
+  --glass: rgba(255, 255, 255, 0.85); /* frosted chips/buttons over the hero */
+  --nav-bg: rgba(255, 255, 255, 0.82);
+
+  /* Type */
+  --font-body: 'Poppins', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-head: 'Sora', 'Poppins', system-ui, sans-serif;
+
+  /* Shape & depth */
+  --radius-sm: 10px;
+  --radius: 16px;
+  --radius-lg: 24px;
+  --shadow-sm: 0 2px 8px rgba(17, 17, 17, 0.06);
+  --shadow: 0 10px 30px rgba(17, 17, 17, 0.08);
+  --shadow-orange: 0 10px 24px rgba(255, 106, 0, 0.28);
+
+  /* Type scale — use these everywhere so sizes stay uniform */
+  --fs-hero: clamp(1.9rem, 7.4vw, 3.4rem);
+  --fs-h1: clamp(1.75rem, 6.4vw, 2.9rem);
+  --fs-h2: clamp(1.35rem, 4.6vw, 2rem);
+  --fs-sub: clamp(1.08rem, 3.4vw, 1.3rem); /* sub-section titles */
+  --fs-h3: 1rem; /* card titles */
+  --fs-body: 0.94rem;
+  --fs-sm: 0.84rem;
+  --fs-xs: 0.74rem;
+
+  /* Layout */
+  --gutter: 16px;
+  --container: 1200px;
+  --nav-h: 60px;
+  --section-y: 56px; /* space between page sections */
+  --stack: 36px; /* space between blocks inside a section */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (min-width: 768px) {
+  :root {
+    --gutter: 28px;
+    --nav-h: 72px;
+    --section-y: 80px;
+    --stack: 44px;
+    --fs-h3: 1.06rem;
+    --fs-body: 1rem;
+    --fs-sm: 0.9rem;
+    --fs-xs: 0.78rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --gutter: 40px;
+    --section-y: 100px;
+    --stack: 52px;
+  }
+}
+
+/* ==========================================================
+   Dark mode — set by the theme toggle (data-theme="dark" on <html>)
+   ========================================================== */
+:root[data-theme='dark'] {
+  color-scheme: dark;
+
+  --blue-tint: rgba(30, 144, 255, 0.14);
+  --orange-tint: rgba(255, 138, 0, 0.14);
+  --grad-soft: linear-gradient(135deg, #161616 0%, #1c1712 100%);
+
+  /* Neutral near-black greys (no blue tint) */
+  --ink: #f5f5f5;
+  --ink-2: #d6d6d6;
+  --muted: #9a9a9a;
+  --line: rgba(255, 255, 255, 0.1);
+  --surface: #000000;
+  --surface-2: #0d0d0d;
+  --card: #141414;
+  --glass: rgba(20, 20, 20, 0.78);
+  --nav-bg: rgba(0, 0, 0, 0.8);
+
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
