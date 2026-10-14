@@ -157,48 +157,67 @@ export const siteSections = [
 
 export const appHeader = {
   title: 'Mobile Apps',
-  text: 'Android apps for jobs, learning, food and business.',
+  text: 'Android apps for productivity, food, jobs and business.',
 }
 
-const app = (id, name, type, info, download) => ({
-  id,
-  name,
-  type,
-  info,
-  download,
-  image: `/assets/${id}-0.webp`,
-  gallery: [0, 1, 2, 3].map((n) => `/assets/${id}-${n}.webp`),
-})
+// Store-style app listings.
+// icon: square app icon (null → branded initials tile). rating/downloads: optional, shown like a store.
+// store: 'play' shows a Google Play badge; 'apk' is a direct download.
+const playImg = (id, size) => `https://play-lh.googleusercontent.com/${id}=${size}-rw`
 
 export const apps = [
-  app('work-on-9', 'Work on 9', 'Jobs & Services', 'An app connecting people and work.', 'https://kraftor.anicomic.org/assets/apps/work-on-9/work-on-9.apk'),
-  app('kraftor', 'Kraftor App', 'Business', 'A mobile companion for creative projects.', 'https://kraftor.anicomic.org/assets/apps/kraftor/kraftor.apk'),
-  // Play Store apps — images load from Google Play
   {
     id: 'uptodo',
     name: 'To-Do List & Daily Planner',
-    type: 'Productivity · 4.4★ · 1L+ downloads',
+    category: 'Productivity',
+    rating: 4.4,
+    downloads: '1L+',
     info: 'Plan your day with tasks, reminders and a calendar.',
+    store: 'play',
     download: 'https://play.google.com/store/apps/details?id=com.to_do_list_studio.uptodo',
-    image: 'https://play-lh.googleusercontent.com/_R6QsEJ6w2PpDINeiCPKaFVhqI-Un3y_qn0CSetfS27VgSre8ODPz_CoEAuM512MNcMZyWykfGssUV9eEG7gIA=w240-h480-rw',
+    icon: playImg('_R6QsEJ6w2PpDINeiCPKaFVhqI-Un3y_qn0CSetfS27VgSre8ODPz_CoEAuM512MNcMZyWykfGssUV9eEG7gIA', 'w240-h240'),
     gallery: [
-      'https://play-lh.googleusercontent.com/ZFcA-FeYRAEbYuczDvn3PmF3Y8Kx_gjkWpZCzJvCB6SkAR6N2RLEDHGEyjCZHsJ-ZytpiaBau80-5bcHxvPFrqw=w526-h296-rw',
-      'https://play-lh.googleusercontent.com/8dTg8Lz2R_sn2lUOzLcwhnBl-Rjs4yqQHahMkeAkgx6BZZQetdhlzOaDB8tgqnvy8V9uquXx8UtggfcqOY6CNw=w526-h296-rw',
-      'https://play-lh.googleusercontent.com/wWZu-kjH2OmOWidsiaCIiEQjCv-1f7SgMJIbxVIHz6fIOW3Jd8LCTKxJCqnAY_88oVyVBANTXHbr9m_CWH8kgjk=w526-h296-rw',
-    ],
+      'ZFcA-FeYRAEbYuczDvn3PmF3Y8Kx_gjkWpZCzJvCB6SkAR6N2RLEDHGEyjCZHsJ-ZytpiaBau80-5bcHxvPFrqw',
+      '8dTg8Lz2R_sn2lUOzLcwhnBl-Rjs4yqQHahMkeAkgx6BZZQetdhlzOaDB8tgqnvy8V9uquXx8UtggfcqOY6CNw',
+      'wWZu-kjH2OmOWidsiaCIiEQjCv-1f7SgMJIbxVIHz6fIOW3Jd8LCTKxJCqnAY_88oVyVBANTXHbr9m_CWH8kgjk',
+      'ZLNteXz-KGWvahau4fPY8ZHlKU4GOnv2UXFbgR4f1wXFCrHNV7PdqwYooU5h3p6krWIQM2jOWVoW7JCeXlkfFg',
+    ].map((id) => playImg(id, 'w526-h592')),
   },
   {
     id: 'favhiker',
     name: 'favhiker',
-    type: 'Food & Drink · 4.4★ · 50K+ downloads',
+    category: 'Food & Drink',
+    rating: 4.4,
+    downloads: '50K+',
     info: 'Discover and share must-try food spots with friends.',
+    store: 'play',
     download: 'https://play.google.com/store/apps/details?id=com.delnie.favhiker',
-    image: 'https://play-lh.googleusercontent.com/zIadpCnNXCCTFtIp3p2_JHmpH2eoZjLsdg1LpqWLikcVkjYqbsQNvnEMwdT_Wt0h_M54NgeVq9K5ec-TCqel=w240-h480-rw',
+    icon: playImg('zIadpCnNXCCTFtIp3p2_JHmpH2eoZjLsdg1LpqWLikcVkjYqbsQNvnEMwdT_Wt0h_M54NgeVq9K5ec-TCqel', 'w240-h240'),
     gallery: [
-      'https://play-lh.googleusercontent.com/BIyb3hF6q2XJ_n5IFldna2wt6ZbhgYUVzMZTDKz0z3TIN_MTs5B4hc9X0-cAQ6RIu06-kESrA3wX6oasnedAQaQ=w526-h296-rw',
-      'https://play-lh.googleusercontent.com/o-6Cr-9rE0sQovav5kNMwFAi67-kl7cEiS7dpm32df1-ufrAwEJmEf19Fnr5y9IPc5yVthHRqC4OgbIqxoLxqA=w526-h296-rw',
-      'https://play-lh.googleusercontent.com/3aacjJqgVEx6_DTLxNQzVFqsHfDhPxhSlpye_B4qe1Wibc1qVA0FRZJ4_KV9LFlWzHpNZaRLP2CmPHugBD0ePfI=w526-h296-rw',
-    ],
+      'BIyb3hF6q2XJ_n5IFldna2wt6ZbhgYUVzMZTDKz0z3TIN_MTs5B4hc9X0-cAQ6RIu06-kESrA3wX6oasnedAQaQ',
+      'o-6Cr-9rE0sQovav5kNMwFAi67-kl7cEiS7dpm32df1-ufrAwEJmEf19Fnr5y9IPc5yVthHRqC4OgbIqxoLxqA',
+      '3aacjJqgVEx6_DTLxNQzVFqsHfDhPxhSlpye_B4qe1Wibc1qVA0FRZJ4_KV9LFlWzHpNZaRLP2CmPHugBD0ePfI',
+    ].map((id) => playImg(id, 'w526-h592')),
+  },
+  {
+    id: 'work-on-9',
+    name: 'Work on 9',
+    category: 'Jobs & Services',
+    info: 'Find work and hire people nearby.',
+    store: 'apk',
+    download: 'https://kraftor.anicomic.org/assets/apps/work-on-9/work-on-9.apk',
+    icon: null,
+    gallery: [0, 1, 2, 3].map((n) => `/assets/work-on-9-${n}.webp`),
+  },
+  {
+    id: 'kraftor',
+    name: 'Kraftor App',
+    category: 'Business',
+    info: 'Follow your project and share files with our team.',
+    store: 'apk',
+    download: 'https://kraftor.anicomic.org/assets/apps/kraftor/kraftor.apk',
+    icon: '/favicon.png',
+    gallery: [0, 1, 2, 3].map((n) => `/assets/kraftor-${n}.webp`),
   },
 ]
 

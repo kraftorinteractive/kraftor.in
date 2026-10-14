@@ -1,0 +1,24 @@
+rules_version = '2';
+
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    function isAdmin() {
+      return request.auth != null
+        && firestore.exists(/databases/(default)/documents/admins/$(request.auth.uid));
+    }
+
+    // CVs from the career form: anyone may upload one new file (PDF / Word, under 5 MB).
+    // Nobody can overwrite, list or download them except admins.
+    match /cvs/{file} {
+      allow create: if resource == null
+        && request.resource.size < 5 * 1024 * 1024
+        && request.resource.contentType.matches('application/(pdf|msword|vnd\\.openxmlformats-officedocument\\.wordprocessingml\\.document)');
+      allow read, delete: if isAdmin();
+    }
+
+    match /{all=**} {
+      allow read, write: if false;
+    }
+  }
+}

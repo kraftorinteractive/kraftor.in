@@ -7,6 +7,7 @@ import YouTubeCard from '../components/ui/YouTubeCard'
 import SiteCard from '../components/ui/SiteCard'
 import AppCard from '../components/ui/AppCard'
 import PageHeader from '../components/layout/PageHeader'
+import TypeText from '../components/ui/TypeText'
 import usePageTitle from '../hooks/usePageTitle'
 import useTabParam from '../hooks/useTabParam'
 import { portfolioTabs, reelSections, siteSections, apps, appHeader } from '../data/portfolio'
@@ -15,12 +16,12 @@ import './pages.css'
 /** Section heading + one line of info, above each row of cards. */
 function SecHead({ title, text, count }) {
   return (
-    <Reveal className="pf-sec__head">
+    <div className="pf-sec__head">
       <h2 className="pf-sec__title">
-        {title} <span className="pf-sec__count">{count}</span>
+        <TypeText text={title} speed={35} inView /> <Reveal as="span" className="pf-sec__count">{count}</Reveal>
       </h2>
-      {text && <p className="pf-sec__text">{text}</p>}
-    </Reveal>
+      {text && <TypeText as="p" className="pf-sec__text" text={text} speed={14} inView caret={false} />}
+    </div>
   )
 }
 
@@ -52,7 +53,7 @@ function VideoSection({ sec }) {
     <section className="pf-sec">
       <SecHead title={sec.title} text={sec.text} count={items.length} />
       {sec.groups && (
-        <div className="pf-sub" role="tablist" aria-label={`${sec.title} format`}>
+        <Reveal className="pf-sub" role="tablist" aria-label={`${sec.title} format`}>
           {sec.groups.map((g) => (
             <button
               key={g.key}
@@ -65,7 +66,7 @@ function VideoSection({ sec }) {
               {g.label}
             </button>
           ))}
-        </div>
+        </Reveal>
       )}
       <VideoRow key={groupKey} layout={group ? group.layout : sec.layout} items={items} />
     </section>
@@ -105,9 +106,9 @@ export default function Portfolio() {
         {tab === 'app' && (
           <section className="pf-sec">
             <SecHead title={appHeader.title} text={appHeader.text} count={apps.length} />
-            <HScroller cols={4} size="small">
+            <Reveal stagger variant="fade" className="st-grid">
               {apps.map((a) => <AppCard key={a.id} app={a} />)}
-            </HScroller>
+            </Reveal>
           </section>
         )}
       </div>

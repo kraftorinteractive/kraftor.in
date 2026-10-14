@@ -28,12 +28,13 @@ export const socials = [
   { name: 'Reddit', key: 'reddit', url: 'https://www.reddit.com/' }, // TODO: profile URL
 ]
 
+// `hint` is the short line shown under each link in the mobile menu
 export const navLinks = [
-  { label: 'Home', to: '/' },
-  { label: 'Portfolio', to: '/portfolio' },
-  { label: 'Services', to: '/services' },
-  { label: 'About', to: '/about' },
-  { label: 'Contact', to: '/contact' },
+  { label: 'Home', to: '/', hint: 'Start here' },
+  { label: 'Portfolio', to: '/portfolio', hint: 'Videos, websites & apps' },
+  { label: 'Services', to: '/services', hint: 'Everything we offer' },
+  { label: 'About', to: '/about', hint: 'Our story, team & clients' },
+  { label: 'Contact', to: '/contact', hint: 'Start a project with us' },
 ]
 
 export const infoLinks = [

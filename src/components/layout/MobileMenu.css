@@ -4,73 +4,138 @@
   z-index: 90;
   display: flex;
   flex-direction: column;
-  padding: calc(var(--nav-h) + 24px) var(--gutter) calc(24px + env(safe-area-inset-bottom));
-  background: var(--surface);
+  padding: calc(var(--nav-h) + 20px) var(--gutter) calc(20px + env(safe-area-inset-bottom));
+  /* Frosted glass: the page shows through, softly blurred */
+  background: var(--menu-glass);
+  backdrop-filter: blur(24px) saturate(160%);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
   overflow-y: auto;
   transform: translateX(100%);
   visibility: hidden;
-  transition: transform 0.45s var(--ease), visibility 0s linear 0.45s;
+  transition: transform var(--dur-panel) var(--ease), visibility 0s linear var(--dur-panel);
 }
 .mmenu.is-open {
   transform: translateX(0);
   visibility: visible;
-  transition: transform 0.45s var(--ease), visibility 0s;
+  transition: transform var(--dur-panel) var(--ease), visibility 0s;
+}
+
+/* Items fade in one after another once the panel is open */
+.mmenu__seq { opacity: 0; transition: opacity var(--dur) var(--ease); }
+.mmenu.is-open .mmenu__seq { opacity: 1; transition-delay: calc(0.15s + var(--i) * 50ms); }
+
+.mmenu__label {
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 6px;
 }
 
 /* ---------- Links ---------- */
 .mmenu__links { display: flex; flex-direction: column; }
-
 .mmenu__link {
-  padding: 14px 0;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 0;
   border-bottom: 1px solid var(--line);
-  font-family: var(--font-head);
-  font-size: var(--fs-h2);
-  font-weight: 600;
-  letter-spacing: -0.02em;
   color: var(--ink);
-  opacity: 0;
-  transform: translateX(24px);
-  transition: opacity 0.35s, transform 0.45s var(--ease), color 0.2s;
+  -webkit-tap-highlight-color: transparent;
 }
-.mmenu.is-open .mmenu__link {
-  opacity: 1;
-  transform: none;
-  transition-delay: calc(0.12s + var(--i) * 0.04s);
+.mmenu__num { width: 22px; font-family: var(--font-head); font-size: var(--fs-xs); font-weight: 600; color: var(--muted); }
+.mmenu__text { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+/* Same size and weight as section sub-headings elsewhere on the site */
+.mmenu__name {
+  font-family: var(--font-head);
+  font-size: var(--fs-sub);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+  transition: color var(--dur-fast);
 }
-.mmenu__link.active { color: var(--orange); }
+.mmenu__hint { margin-top: 1px; font-size: var(--fs-xs); color: var(--muted); }
+.mmenu__arrow { flex-shrink: 0; font-size: 1rem; color: var(--muted); transition: transform var(--dur) var(--ease), color var(--dur-fast); }
+.mmenu__link:active .mmenu__arrow { transform: translate(2px, -2px); }
 
-/* ---------- Contact buttons ---------- */
-.mmenu__actions {
-  margin-top: auto;
-  padding-top: 32px;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+/* Current page: orange name, number and arrow, with a small accent bar */
+.mmenu__link.active .mmenu__name,
+.mmenu__link.active .mmenu__num,
+.mmenu__link.active .mmenu__arrow { color: var(--orange); }
+.mmenu__link.active::before {
+  content: '';
+  position: absolute;
+  left: -16px;
+  top: 50%;
+  width: 3px;
+  height: 26px;
+  margin-top: -13px;
+  border-radius: 0 3px 3px 0;
+  background: var(--grad-primary);
+}
+
+/* ---------- Bottom: CTA, quick contact, socials + theme ---------- */
+.mmenu__bottom { margin-top: auto; padding-top: 24px; display: flex; flex-direction: column; gap: 12px; }
+
+.mmenu__cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   gap: 8px;
-  opacity: 0;
-  transition: opacity 0.35s 0.3s;
+  padding: 14px;
+  border-radius: 999px;
+  background: var(--grad-primary);
+  color: #fff;
+  font-weight: 600;
+  font-size: var(--fs-sm);
+  box-shadow: var(--shadow-orange);
 }
-.mmenu.is-open .mmenu__actions { opacity: 1; }
+.mmenu__cta:active { transform: scale(0.98); }
 
+.mmenu__actions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
 .mmenu__btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 6px;
-  padding: 12px 6px;
+  padding: 11px 6px;
   border-radius: 999px;
-  border: 1.5px solid var(--line);
+  border: 1px solid var(--line);
+  background: var(--glass);
   font-size: var(--fs-xs);
   font-weight: 600;
   color: var(--ink);
   white-space: nowrap;
 }
-.mmenu__btn svg { font-size: 1rem; }
+.mmenu__btn svg { font-size: 1rem; color: var(--orange); }
 .mmenu__btn:active { transform: scale(0.96); }
-.mmenu__btn--primary {
-  background: var(--grad-primary);
-  border-color: transparent;
-  color: #fff;
+
+.mmenu__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
 }
+.mmenu__social { display: flex; gap: 10px; }
+.mmenu__soc {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  font-size: 0.95rem;
+}
+.mmenu__soc--instagram { background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fd5949 45%, #d6249f 60%, #285aeb 90%); }
+.mmenu__soc--whatsapp { background: #25d366; }
+.mmenu__soc--reddit { background: #ff4500; }
+
+/* Theme button inside the light menu (the toggle is styled for the dark footer by default) */
+.mmenu .mmenu__theme { color: var(--ink); border-color: var(--line); }
+.mmenu .mmenu__theme:hover { background: var(--surface-2); }
 
 @media (min-width: 1024px) {
   .mmenu { display: none; }

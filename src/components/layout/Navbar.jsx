@@ -41,8 +41,8 @@ export default function Navbar() {
           </div>
 
           <div className="nav__right">
-            {/* Client account — no login yet, so it points to Contact for now */}
-            <Link to="/contact" className="nav__profile" aria-label="My account">
+            {/* Client & employee accounts (admin login is hidden — footer logo, tapped 3 times) */}
+            <Link to="/login" className="nav__profile" aria-label="Account" title="Account">
               <FiUser />
             </Link>
 

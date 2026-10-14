@@ -41,12 +41,10 @@
 .hx__inner { display: grid; gap: 18px; }
 
 /* ---------- Text ---------- */
-.hx__text > * { animation: hx-up 0.8s var(--ease) both; }
-.hx__text > :nth-child(2) { animation-delay: 0.08s; }
-.hx__text > :nth-child(3) { animation-delay: 0.16s; }
-.hx__text > :nth-child(4) { animation-delay: 0.24s; }
-.hx__text > :nth-child(5) { animation-delay: 0.32s; }
-@keyframes hx-up { from { opacity: 0; transform: translateY(22px); } }
+/* Same soft fade as the rest of the site, one line after another */
+/* Entrance order is handled by the shared animation queue (TypeText + Reveal) */
+.rot-wrap { display: block; }
+.hx__mq { flex-shrink: 0; }
 
 .hx__pill {
   display: none; /* shown from tablet up */
@@ -143,7 +141,6 @@
   position: relative;
   height: 320px;
   isolation: isolate;
-  animation: hx-up 0.9s 0.2s var(--ease) both;
 }
 .hx__ring {
   position: absolute;

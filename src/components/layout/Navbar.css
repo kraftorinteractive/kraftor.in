@@ -7,7 +7,7 @@
   backdrop-filter: saturate(160%) blur(14px);
   -webkit-backdrop-filter: saturate(160%) blur(14px);
   border-bottom: 1px solid transparent;
-  transition: border-color 0.3s, box-shadow 0.3s;
+  transition: border-color var(--dur), box-shadow var(--dur);
 }
 .nav--scrolled { border-bottom-color: var(--line); box-shadow: 0 4px 20px rgba(17, 17, 17, 0.04); }
 
@@ -33,7 +33,7 @@
   place-items: center;
   font-size: 1rem;
   color: var(--ink);
-  transition: border-color 0.2s, color 0.2s;
+  transition: border-color var(--dur-fast), color var(--dur-fast);
   -webkit-tap-highlight-color: transparent;
 }
 .nav__profile:hover { border-color: var(--orange-mid); color: var(--orange); }
@@ -65,7 +65,7 @@
   height: 2.5px;
   border-radius: 3px;
   background: var(--ink);
-  transition: transform 0.35s var(--ease), opacity 0.2s, width 0.35s var(--ease);
+  transition: transform var(--dur) var(--ease), opacity var(--dur-fast), width var(--dur) var(--ease);
 }
 .burger span:nth-child(1) { width: 24px; }
 .burger span:nth-child(2) { width: 17px; background: var(--orange); }
@@ -78,12 +78,17 @@
 @media (min-width: 1024px) {
   .burger { display: none; }
 
+  /* Links sit in one soft pill in the middle of the bar */
   .nav__links {
     display: flex;
-    gap: 6px;
+    gap: 2px;
+    padding: 4px;
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--glass);
   }
   .nav__cta { display: block; margin-left: auto; }
   .nav .logo__symbol { height: 34px; }
@@ -91,27 +96,24 @@
 
   .nav__link {
     position: relative;
-    padding: 8px 14px;
+    padding: 8px 16px;
+    border-radius: 999px;
     font-size: var(--fs-sm);
     font-weight: 500;
     color: var(--ink-2);
-    transition: color 0.2s;
+    transition: color var(--dur-fast), background var(--dur-fast);
   }
-  .nav__link::after {
+  .nav__link:hover { color: var(--ink); background: var(--surface-2); }
+  /* Current page: soft orange pill with a small dot */
+  .nav__link.active { color: var(--orange); font-weight: 600; background: var(--orange-tint); }
+  .nav__link.active::before {
     content: '';
-    position: absolute;
-    left: 14px;
-    right: 14px;
-    bottom: 2px;
-    height: 2.5px;
-    border-radius: 3px;
+    display: inline-block;
+    width: 5px;
+    height: 5px;
+    margin: 0 7px 2px 0;
+    border-radius: 50%;
     background: var(--grad-primary);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.3s var(--ease);
+    vertical-align: middle;
   }
-  .nav__link:hover { color: var(--ink); }
-  .nav__link.active { color: var(--ink); font-weight: 600; }
-  .nav__link:hover::after,
-  .nav__link.active::after { transform: scaleX(1); }
 }

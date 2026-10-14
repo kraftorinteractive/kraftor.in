@@ -1,18 +1,51 @@
 import { Link } from 'react-router-dom'
-import { FiBox, FiFilm, FiCpu, FiVideo, FiPenTool, FiLayout, FiGlobe, FiSmartphone, FiCode, FiBookOpen, FiCheck, FiArrowUpRight } from 'react-icons/fi'
+import {
+  FiBox, FiFilm, FiCpu, FiVideo, FiPenTool, FiLayout, FiGlobe, FiSmartphone, FiCode, FiBookOpen, FiCheck,
+  FiArrowUpRight, FiLayers, FiShare2, FiTarget, FiSearch, FiPackage, FiZap, FiSmile, FiHome, FiEdit3,
+  FiTablet, FiCopy, FiMonitor, FiTool, FiCamera, FiMapPin, FiMail, FiAward, FiImage, FiPrinter, FiYoutube,
+  FiBriefcase, FiCalendar, FiDroplet, FiShoppingCart, FiRefreshCw, FiServer,
+} from 'react-icons/fi'
 import './cards.css'
 
+// icon key (from data/services.js) → Feather icon
 const icons = {
   cube: FiBox,
   motion: FiFilm,
+  film: FiFilm,
   ai: FiCpu,
   video: FiVideo,
   pen: FiPenTool,
   layout: FiLayout,
   web: FiGlobe,
   mobile: FiSmartphone,
+  phone: FiTablet,
   code: FiCode,
   school: FiBookOpen,
+  layers: FiLayers,
+  social: FiShare2,
+  target: FiTarget,
+  search: FiSearch,
+  package: FiPackage,
+  zap: FiZap,
+  smile: FiSmile,
+  home: FiHome,
+  edit: FiEdit3,
+  copy: FiCopy,
+  monitor: FiMonitor,
+  tool: FiTool,
+  camera: FiCamera,
+  map: FiMapPin,
+  mail: FiMail,
+  award: FiAward,
+  image: FiImage,
+  printer: FiPrinter,
+  youtube: FiYoutube,
+  briefcase: FiBriefcase,
+  calendar: FiCalendar,
+  droplet: FiDroplet,
+  cart: FiShoppingCart,
+  refresh: FiRefreshCw,
+  server: FiServer,
 }
 
 /** `to` makes the whole card a link; `index` shows a 01/02 number; `tone` = orange | blue. */

@@ -27,6 +27,7 @@
   --card: #ffffff; /* cards, form, accordion, menu */
   --glass: rgba(255, 255, 255, 0.85); /* frosted chips/buttons over the hero */
   --nav-bg: rgba(255, 255, 255, 0.82);
+  --menu-glass: rgba(255, 255, 255, 0.62); /* mobile menu: see-through, blurred */
 
   /* Type */
   --font-body: 'Poppins', system-ui, -apple-system, 'Segoe UI', sans-serif;
@@ -57,6 +58,14 @@
   --section-y: 56px; /* space between page sections */
   --stack: 36px; /* space between blocks inside a section */
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* Motion — every animation and transition uses these, so the site moves the same way everywhere */
+  --dur-fast: 0.2s; /* colour / border / opacity changes on hover */
+  --dur: 0.35s; /* hover lifts, tabs, toggles, small UI movement */
+  --dur-panel: 0.45s; /* menu and sheets sliding in */
+  --dur-enter: 0.7s; /* things appearing on the page (fade in) */
+  --stagger: 90ms; /* gap between items appearing one after another */
+  --lift: -3px; /* how far cards and buttons rise on hover */
 }
 
 @media (min-width: 768px) {
@@ -100,6 +109,7 @@
   --card: #141414;
   --glass: rgba(20, 20, 20, 0.78);
   --nav-bg: rgba(0, 0, 0, 0.8);
+  --menu-glass: rgba(10, 10, 10, 0.55);
 
   --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
   --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);

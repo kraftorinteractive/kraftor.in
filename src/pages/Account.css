@@ -1,0 +1,111 @@
+/* ---------- Account (clients & employees) — same open, minimal style as Contact ---------- */
+.acct { max-width: 560px; }
+.acct-form__grid { grid-template-columns: 1fr !important; }
+
+.acct-link {
+  border: 0;
+  padding: 0;
+  background: none;
+  font: inherit;
+  font-weight: 600;
+  color: var(--orange);
+  cursor: pointer;
+}
+.acct-link:hover { text-decoration: underline; }
+.acct-link--right { align-self: flex-end; margin-top: 6px; font-size: var(--fs-xs); }
+.acct-switch { margin: 16px 0 0; font-size: var(--fs-sm); color: var(--muted); }
+.acct-ok { margin: 12px 0 0; font-size: var(--fs-sm); color: #16a34a; }
+
+/* Who's signed in */
+.acct-me {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 20px;
+  margin-bottom: 28px;
+  border-bottom: 1px solid var(--line);
+}
+.acct-me__avatar {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-head, inherit);
+  font-weight: 700;
+  color: #fff;
+  background: var(--grad-primary);
+}
+.acct-me__text { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.acct-me__text strong { color: var(--ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.acct-me__text small { font-size: var(--fs-xs); color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.acct-out {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 36px;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: none;
+  color: var(--ink);
+  font: inherit;
+  font-size: var(--fs-sm);
+  cursor: pointer;
+}
+.acct-out:hover { border-color: var(--orange-mid); color: var(--orange); }
+.acct-out span { display: none; }
+
+/* Blocks */
+.acct-block__title { font-size: var(--fs-sub); margin-bottom: 16px; }
+
+.acct-note { display: flex; gap: 14px; align-items: flex-start; }
+.acct-note > svg { flex-shrink: 0; font-size: 1.4rem; color: var(--orange); margin-top: 2px; }
+.acct-note strong { display: block; color: var(--ink); margin-bottom: 4px; }
+.acct-note p { margin: 0; }
+.acct-note a { color: var(--orange); font-weight: 600; }
+
+.acct-empty > svg { font-size: 1.8rem; color: var(--orange); margin-bottom: 8px; }
+.acct-empty p { margin: 0 0 16px; }
+
+/* My enquiries */
+.acct-list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+.acct-list li {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 4px 12px;
+  align-items: center;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line);
+}
+.acct-list__main { min-width: 0; display: flex; flex-direction: column; }
+.acct-list__main strong { color: var(--ink); font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.acct-list__main small { font-size: var(--fs-xs); color: var(--muted); }
+.acct-list time { grid-column: 2; font-size: var(--fs-xs); color: var(--muted); text-align: right; }
+.acct-pill {
+  justify-self: end;
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+.acct-pill--new { color: #c2410c; background: rgba(255, 138, 0, 0.16); }
+.acct-pill--contacted { color: #1d4ed8; background: rgba(30, 144, 255, 0.14); }
+.acct-pill--closed { color: var(--muted); background: var(--surface-2); }
+:root[data-theme='dark'] .acct-pill--new { color: #ffb066; }
+:root[data-theme='dark'] .acct-pill--contacted { color: #7cb8ff; }
+
+/* Employee links */
+.acct-links { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+.acct-links li { border-bottom: 1px solid var(--line); }
+.acct-links a { display: flex; align-items: center; gap: 12px; padding: 16px 0; color: var(--ink); }
+.acct-links a span { flex: 1; }
+.acct-links a svg:first-child { color: var(--orange); }
+.acct-links a svg:last-child { color: var(--muted); transition: transform var(--dur) var(--ease); }
+.acct-links a:hover { color: var(--orange); }
+.acct-links a:hover svg:last-child { transform: translateX(3px); color: var(--orange); }
+
+@media (min-width: 768px) {
+  .acct-out span { display: inline; }
+}

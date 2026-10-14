@@ -1,0 +1,83 @@
+/* Themed dropdown — matches light and dark mode */
+.sel { position: relative; width: 100%; }
+.sel.is-open { z-index: 60; } /* open list sits above whatever comes next */
+
+.sel__btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font: inherit;
+  font-size: 16px; /* matches inputs, no zoom on iOS */
+  text-align: left;
+  color: var(--ink);
+  background: transparent;
+  cursor: pointer;
+  transition: border-color var(--dur-fast), box-shadow var(--dur-fast);
+}
+.sel__value { color: var(--ink); }
+.sel__placeholder { color: var(--muted); }
+.sel__chev { flex-shrink: 0; font-size: 1.05rem; color: var(--orange); transition: transform var(--dur) var(--ease); }
+.sel.is-open .sel__chev { transform: rotate(180deg); }
+
+/* Box style (Services page) */
+.sel--box .sel__btn {
+  padding: 13px 16px;
+  border: 1.5px solid var(--line);
+  border-radius: 14px;
+  background: var(--card);
+  font-weight: 500;
+}
+.sel--box .sel__btn:hover,
+.sel--box.is-open .sel__btn { border-color: var(--orange-mid); }
+.sel--box.is-open .sel__btn { box-shadow: 0 0 0 4px rgba(255, 138, 0, 0.14); }
+
+/* Line style (Contact form) */
+.sel--line .sel__btn {
+  padding: 10px 0;
+  border: 0;
+  border-bottom: 1.5px solid var(--line);
+  border-radius: 0;
+}
+.sel--line.is-open .sel__btn,
+.sel--line .sel__btn:focus-visible { border-bottom-color: var(--orange); outline: none; }
+.sel.is-invalid .sel__btn { border-color: #e5484d; }
+
+/* The option list */
+.sel__list {
+  position: absolute;
+  z-index: 50;
+  left: 0;
+  right: 0;
+  top: calc(100% + 6px);
+  max-height: 264px;
+  overflow-y: auto;
+  margin: 0;
+  padding: 6px;
+  list-style: none;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--card); /* solid so options are always easy to read */
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.18);
+  animation: sel-in var(--dur) var(--ease);
+  overscroll-behavior: contain;
+}
+.sel__list[hidden] { display: none; }
+@keyframes sel-in { from { opacity: 0; } }
+
+.sel__opt {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-size: var(--fs-sm);
+  color: var(--ink-2);
+  cursor: pointer;
+  transition: background var(--dur-fast), color var(--dur-fast);
+}
+.sel__opt.is-active { background: var(--orange-tint); color: var(--ink); }
+.sel__opt.is-selected { color: var(--orange); font-weight: 600; }
+.sel__tick { flex-shrink: 0; color: var(--orange); }

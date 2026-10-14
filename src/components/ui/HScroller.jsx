@@ -69,7 +69,7 @@ export default function HScroller({ children, cols = 3, size = 'card', scrollDes
       <Reveal
         ref={ref}
         stagger
-        variant="left"
+        variant="fade"
         className={`hs hs--${size}${scrollDesktop ? ' hs--scroll-desktop' : ''} ${className}`.trim()}
         style={{ '--cols': cols }}
       >

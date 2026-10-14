@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import { FiArrowRight, FiPlay } from 'react-icons/fi'
 import Button from '../ui/Button'
+import Reveal from '../ui/Reveal'
+import TypeText from '../ui/TypeText'
 import Marquee from './Marquee'
 import symbol from '../../assets/logo-symbol.png'
 import { counts } from '../../data/portfolio'
@@ -54,29 +56,33 @@ export default function Hero() {
       </div>
 
       <div className="container hx__inner">
+        {/* Played strictly in order via the animation queue:
+            pill → heading types → rotating word → "people love." types → info types → buttons → stats → reels → strips */}
         <div className="hx__text">
-          <span className="hx__pill">
+          <Reveal as="span" className="hx__pill">
             <span className="hx__pulse" /> Multimedia &amp; IT Solution
-          </span>
-          <h1 className="hx__title">
-            We turn ideas into <Rotator /> people love.
+          </Reveal>
+          <h1 className="hx__title" aria-label="We turn ideas into work people love.">
+            <TypeText text="We turn ideas into" speed={35} caret={false} />
+            <Reveal as="span" className="rot-wrap"><Rotator /></Reveal>
+            <TypeText text="people love." speed={35} />
           </h1>
-          <p className="hx__lead">Design, animation and tech — all under one roof.</p>
-          <div className="hx__actions">
+          <TypeText as="p" className="hx__lead" text="Design, animation and tech — all under one roof." speed={14} caret={false} />
+          <Reveal className="hx__actions">
             <Button to="/contact" size="md" iconRight={<FiArrowRight />}>Start a Project</Button>
             <Button to="/portfolio" size="md" variant="outline" className="hx__work" icon={<FiPlay />}>Our Work</Button>
-          </div>
-          <ul className="hx__stats">
+          </Reveal>
+          <Reveal as="ul" className="hx__stats">
             {stats.map((s) => (
               <li key={s.label}>
                 <strong>{s.value}</strong>
                 <span>{s.label}</span>
               </li>
             ))}
-          </ul>
+          </Reveal>
         </div>
 
-        <div className="hx__stage" aria-hidden="true">
+        <Reveal className="hx__stage" aria-hidden="true">
           <div className="hx__ring" />
           <div className="hx__floor" />
           {/* Side reels are small files (~370 KB each) so they can play too */}
@@ -99,11 +105,11 @@ export default function Hero() {
           </div>
           <span className="hx__chip hx__chip--a"><i className="dot dot--o" />3D Animation</span>
           <span className="hx__chip hx__chip--b"><i className="dot dot--b" />Web &amp; App</span>
-        </div>
+        </Reveal>
       </div>
 
       {/* Inside the hero so the soft background flows behind the crossed strips */}
-      <Marquee />
+      <Reveal className="hx__mq"><Marquee /></Reveal>
     </section>
   )
 }

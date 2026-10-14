@@ -1,4 +1,5 @@
-import { Link } from 'react-router-dom'
+import { useEffect, useRef } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import { FiPhone, FiMail, FiArrowRight } from 'react-icons/fi'
 import { FaInstagram, FaWhatsapp, FaRedditAlien } from 'react-icons/fa'
 import Logo from '../ui/Logo'
@@ -10,6 +11,29 @@ import './Footer.css'
 const socialIcons = { instagram: FaInstagram, whatsapp: FaWhatsapp, reddit: FaRedditAlien }
 
 export default function Footer() {
+  const navigate = useNavigate()
+  const taps = useRef({ count: 0, timer: 0 })
+  useEffect(() => () => clearTimeout(taps.current.timer), [])
+
+  // Hidden way into the admin panel: tap the footer logo three times quickly.
+  // A single tap still goes Home — it just waits a moment to see if more taps follow,
+  // so the page doesn't scroll away from the footer between taps.
+  const onLogoTap = (e) => {
+    e.preventDefault()
+    const t = taps.current
+    clearTimeout(t.timer)
+    t.count += 1
+    if (t.count >= 3) {
+      t.count = 0
+      navigate('/admin')
+      return
+    }
+    t.timer = setTimeout(() => {
+      t.count = 0
+      navigate('/')
+    }, 450)
+  }
+
   return (
     <footer className="foot">
       <div className="container">
@@ -17,7 +41,7 @@ export default function Footer() {
           {/* Brand — the only column shown on mobile */}
           <div className="foot__brand">
             <div className="foot__logo-row">
-              <Logo onDark />
+              <Logo onDark onClick={onLogoTap} />
               <ThemeToggle />
             </div>
             <p className="foot__desc">{site.description}</p>

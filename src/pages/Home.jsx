@@ -35,14 +35,12 @@ export default function Home() {
       {/* ---------- Services ---------- */}
       <section className="section">
         <div className="container">
-          <Reveal>
             <SectionHeader
               eyebrow="Welcome to Kraftor"
-              title={<>Everything your brand needs, <span className="text-grad">in one place.</span></>}
+              title="Everything your brand needs, " accent="in one place."
               linkTo="/services"
               linkLabel="All services"
             />
-          </Reveal>
           <HScroller cols={3} size="small" autoplay={3200}>
             {homeServices.map((s, i) => (
               <ServiceCard key={s.id} service={s} index={i + 1} tone={i % 2 ? 'blue' : 'orange'} to="/services" />
@@ -54,14 +52,12 @@ export default function Home() {
       {/* ---------- Showcase ---------- */}
       <section className="section">
         <div className="container">
-          <Reveal>
             <SectionHeader
               eyebrow="Showcase"
-              title={<>Work we&apos;re <span className="text-grad">proud of.</span></>}
+              title="Work we're " accent="proud of."
               linkTo="/portfolio"
               linkLabel="View all"
             />
-          </Reveal>
           <HScroller size="reel" cols={5}>
             {homeReels.map((r) => <ReelCard key={r.id} reel={r} />)}
           </HScroller>

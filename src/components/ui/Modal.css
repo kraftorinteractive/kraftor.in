@@ -6,7 +6,7 @@
   backdrop-filter: blur(4px);
   display: flex;
   align-items: flex-end;
-  animation: modal-fade 0.25s ease;
+  animation: modal-fade var(--dur) var(--ease);
 }
 
 .modal__box {
@@ -17,7 +17,7 @@
   background: var(--card);
   border-radius: var(--radius-lg) var(--radius-lg) 0 0;
   padding: 28px var(--gutter) 32px;
-  animation: modal-up 0.35s var(--ease);
+  animation: modal-up var(--dur-panel) var(--ease);
 }
 .modal__box h3 { padding-right: 40px; }
 

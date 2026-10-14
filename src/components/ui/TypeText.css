@@ -1,0 +1,18 @@
+/* Letters not typed yet: invisible but still take up space */
+.type__rest { visibility: hidden; }
+
+/* Blinking caret */
+.type__caret {
+  display: inline-block;
+  width: 2px;
+  height: 0.95em;
+  margin: 0 -1px; /* takes no width, so letters don't shift as it moves */
+  vertical-align: -0.1em;
+  border-radius: 2px;
+  background: var(--orange);
+  animation: caret 0.8s steps(1) infinite;
+}
+/* After typing: blink a few times, then fade away */
+.type--done .type__caret { animation: caret 0.8s steps(1) 2, caret-out var(--dur) 1.6s forwards; }
+@keyframes caret { 50% { opacity: 0; } }
+@keyframes caret-out { to { opacity: 0; } }

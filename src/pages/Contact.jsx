@@ -1,10 +1,14 @@
 import { useState } from 'react'
-import { FiPhone, FiMail, FiMapPin, FiSend, FiCheckCircle } from 'react-icons/fi'
+import { FiPhone, FiMail, FiMapPin, FiSend, FiCheckCircle, FiArrowUpRight } from 'react-icons/fi'
 import { FaWhatsapp } from 'react-icons/fa'
 import Button from '../components/ui/Button'
 import Accordion from '../components/ui/Accordion'
 import SectionHeader from '../components/ui/SectionHeader'
 import Reveal from '../components/ui/Reveal'
+import Select from '../components/ui/Select'
+import TypeText from '../components/ui/TypeText'
+import { isFirebaseReady } from '../lib/firebase'
+import { submitEnquiry } from '../lib/api'
 import usePageTitle from '../hooks/usePageTitle'
 import { site, links } from '../data/site'
 import { projectTypes, budgetsINR, budgetsUSD, countries, faqs } from '../data/contact'
@@ -66,6 +70,9 @@ export default function Contact() {
   const [form, setForm] = useState(empty)
   const [errors, setErrors] = useState({})
   const [sent, setSent] = useState(false)
+  const [sending, setSending] = useState(false)
+  const [submitError, setSubmitError] = useState('')
+  const [honey, setHoney] = useState('') // hidden field — bots fill it, people don't
 
   const isIndia = form.country === 'India'
   const budgets = isIndia ? budgetsINR : budgetsUSD
@@ -81,8 +88,23 @@ export default function Contact() {
     if (errors[key]) setErrors((er) => ({ ...er, [key]: undefined }))
   }
 
-  const onSubmit = (e) => {
+  // Same details as a WhatsApp message — used as the fallback when the database isn't available
+  const whatsappText = () =>
+    [
+      `Hi Kraftor, new enquiry:`,
+      `Name: ${form.name}${form.company ? ` (${form.company})` : ''}`,
+      `Phone: ${form.phone} · Email: ${form.email}`,
+      `Country: ${form.country}`,
+      `Project: ${form.projectName} — ${form.projectType}`,
+      `Budget: ${form.budget}`,
+      form.projectInfo && `Info: ${form.projectInfo}`,
+    ]
+      .filter(Boolean)
+      .join('\n')
+
+  const onSubmit = async (e) => {
     e.preventDefault()
+    setSubmitError('')
     const errs = validate(form)
     setErrors(errs)
     if (Object.keys(errs).length) {
@@ -90,15 +112,35 @@ export default function Contact() {
       first?.focus()
       return
     }
-    // UI only for now — hook up email / API here later.
-    setSent(true)
+    if (honey) return setSent(true) // spam bot — pretend it worked
+
+    // Not connected yet: hand the enquiry to WhatsApp so nothing is lost
+    if (!isFirebaseReady) {
+      window.open(links.whatsappMsg(whatsappText()), '_blank', 'noopener')
+      setSent(true)
+      return
+    }
+
+    setSending(true)
+    try {
+      await submitEnquiry(form)
+      setSent(true)
+    } catch {
+      setSubmitError('Sorry, we couldn’t send your enquiry. Please try again, or send it on WhatsApp.')
+    } finally {
+      setSending(false)
+    }
   }
 
   const reset = () => {
     setForm(empty)
     setErrors({})
     setSent(false)
+    setSubmitError('')
   }
+
+  // Themed dropdowns hand back the chosen value instead of an event
+  const pick = (key) => (value) => set(key)({ target: { type: 'select', value } })
 
   const a = (id) => ({ id, 'aria-invalid': !!errors[id], 'aria-describedby': errors[id] ? `${id}-err` : undefined })
 
@@ -121,9 +163,9 @@ export default function Contact() {
             </div>
           ) : (
             <form className="form" onSubmit={onSubmit} noValidate>
-              <h2 className="form__title">Client enquiry form</h2>
+              <TypeText as="h2" className="form__title" text="Client enquiry form" speed={35} inView />
 
-              <div className="form__grid">
+              <Reveal stagger className="form__grid">
                 <Field label="Name" id="name" error={errors.name}>
                   <input {...a('name')} type="text" autoComplete="name" value={form.name} onChange={set('name')} placeholder="Your full name" />
                 </Field>
@@ -154,27 +196,18 @@ export default function Contact() {
                   </label>
                 </Field>
                 <Field label="Country of origin" id="country" error={errors.country}>
-                  <select {...a('country')} value={form.country} onChange={set('country')}>
-                    <option value="">Select country</option>
-                    {countries.map((c) => <option key={c}>{c}</option>)}
-                  </select>
+                  <Select variant="line" id="country" value={form.country} onChange={pick('country')} options={countries} placeholder="Select country" invalid={!!errors.country} describedBy={errors.country ? 'country-err' : undefined} />
                 </Field>
 
                 <Field label="Project type" id="projectType" error={errors.projectType}>
-                  <select {...a('projectType')} value={form.projectType} onChange={set('projectType')}>
-                    <option value="">Select project type</option>
-                    {projectTypes.map((p) => <option key={p}>{p}</option>)}
-                  </select>
+                  <Select variant="line" id="projectType" value={form.projectType} onChange={pick('projectType')} options={projectTypes} placeholder="Select project type" invalid={!!errors.projectType} describedBy={errors.projectType ? 'projectType-err' : undefined} />
                 </Field>
                 <Field label="Project name" id="projectName" error={errors.projectName}>
                   <input {...a('projectName')} type="text" value={form.projectName} onChange={set('projectName')} placeholder="e.g. Product launch video" />
                 </Field>
 
                 <Field label={`Project budget (${isIndia ? '₹ INR' : '$ USD'})`} id="budget" error={errors.budget}>
-                  <select {...a('budget')} value={form.budget} onChange={set('budget')}>
-                    <option value="">Select budget</option>
-                    {budgets.map((b) => <option key={b}>{b}</option>)}
-                  </select>
+                  <Select variant="line" id="budget" value={form.budget} onChange={pick('budget')} options={budgets} placeholder="Select budget" invalid={!!errors.budget} describedBy={errors.budget ? 'budget-err' : undefined} />
                   {!form.country && <span className="field__hint">Pick your country to see budgets in your currency.</span>}
                 </Field>
 
@@ -183,9 +216,30 @@ export default function Contact() {
                     <textarea id="projectInfo" rows={4} value={form.projectInfo} onChange={set('projectInfo')} placeholder="Tell us about goals, timeline, references…" />
                   </Field>
                 </div>
-              </div>
+              </Reveal>
 
-              <Button type="submit" size="lg" iconRight={<FiSend />} className="form__submit">Submit enquiry</Button>
+              <Reveal>
+                {/* Honeypot: hidden from people, tempting to bots */}
+                <input
+                  className="form__honey"
+                  type="text"
+                  name="website"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  value={honey}
+                  onChange={(e) => setHoney(e.target.value)}
+                  aria-hidden="true"
+                />
+                <Button type="submit" size="lg" iconRight={<FiSend />} className="form__submit" disabled={sending}>
+                  {sending ? 'Sending…' : 'Submit enquiry'}
+                </Button>
+                {submitError && (
+                  <p className="form__error" role="alert">
+                    {submitError}{' '}
+                    <a href={links.whatsappMsg(whatsappText())} target="_blank" rel="noopener noreferrer">Send on WhatsApp</a>
+                  </p>
+                )}
+              </Reveal>
             </form>
           )}
         </div>
@@ -200,11 +254,12 @@ export default function Contact() {
               {info.map(({ icon: Icon, label, value, href, external }) => {
                 const body = (
                   <>
-                    <span className="cinfo__icon"><Icon /></span>
-                    <span>
+                    <Icon className="cinfo__icon" aria-hidden="true" />
+                    <span className="cinfo__text">
                       <small>{label}</small>
                       <strong>{value}</strong>
                     </span>
+                    {href && <FiArrowUpRight className="cinfo__go" aria-hidden="true" />}
                   </>
                 )
                 return (
@@ -218,7 +273,7 @@ export default function Contact() {
                 )
               })}
             </Reveal>
-            <Reveal variant="zoom" className="cinfo__map">
+            <Reveal variant="fade" className="cinfo__map">
               <iframe title="Kraftor Interactive location" src={site.mapEmbed} loading="lazy" referrerPolicy="no-referrer-when-downgrade" />
             </Reveal>
           </div>
@@ -226,10 +281,12 @@ export default function Contact() {
       </section>
 
       {/* ---------- FAQ ---------- */}
-      <section className="section section--tint">
+      <section className="section">
         <div className="container faq">
           <SectionHeader eyebrow="FAQ" title="Quick answers" />
-          <Accordion items={faqs} />
+          <Reveal>
+            <Accordion items={faqs} />
+          </Reveal>
         </div>
       </section>
     </>

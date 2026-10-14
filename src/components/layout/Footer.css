@@ -18,7 +18,7 @@
 .foot__desc { color: rgba(255, 255, 255, 0.7); margin: 20px 0 18px; max-width: 360px; }
 
 .foot__contact { list-style: none; padding: 0; margin: 0 0 20px; display: grid; gap: 8px; }
-.foot__contact a { display: inline-flex; align-items: center; gap: 8px; color: #fff; font-weight: 500; transition: opacity 0.2s; }
+.foot__contact a { display: inline-flex; align-items: center; gap: 8px; color: #fff; font-weight: 500; transition: opacity var(--dur-fast); }
 .foot__contact svg { font-size: 0.95rem; opacity: 0.8; }
 .foot__contact a:hover { opacity: 0.8; }
 /* Small social icons in their original brand style */
@@ -30,9 +30,9 @@
   place-items: center;
   font-size: 0.95rem;
   color: #fff;
-  transition: transform 0.2s var(--ease);
+  transition: transform var(--dur-fast) var(--ease);
 }
-.foot__soc:hover { transform: translateY(-2px); }
+.foot__soc:hover { transform: translateY(var(--lift)); }
 .foot__soc--instagram {
   border-radius: 8px;
   background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285aeb 90%);
@@ -59,7 +59,7 @@
   margin-bottom: 12px;
 }
 .foot__col ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
-.foot__col a { color: rgba(255, 255, 255, 0.7); transition: color 0.2s; }
+.foot__col a { color: rgba(255, 255, 255, 0.7); transition: color var(--dur-fast); }
 .foot__col a:hover { color: #fff; }
 
 .foot__bottom {

@@ -1,26 +1,19 @@
+/* Every scroll-in is the same soft fade: opacity only, no sliding or zooming.
+   (The variant names are kept so older markup still works, but they all fade.) */
 .reveal:not(.reveal--stagger),
 .reveal--stagger > * {
   opacity: 0;
-  transition:
-    opacity 0.7s var(--ease),
-    transform 0.7s var(--ease);
-  transition-delay: calc(var(--rd, 0ms) + var(--ri, 0) * 80ms);
+  transition: opacity var(--dur-enter) var(--ease);
+  /* order between blocks comes from the animation queue; --ri only staggers children inside one block */
+  transition-delay: calc(var(--ri, 0) * var(--stagger));
 }
-
-.reveal--up:not(.reveal--stagger),
-.reveal--up.reveal--stagger > * { transform: translateY(28px); }
-.reveal--left:not(.reveal--stagger),
-.reveal--left.reveal--stagger > * { transform: translateX(36px); }
-.reveal--zoom:not(.reveal--stagger),
-.reveal--zoom.reveal--stagger > * { transform: scale(0.94); }
 
 .reveal.is-in:not(.reveal--stagger),
 .reveal.is-in.reveal--stagger > * {
   opacity: 1;
-  transform: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .reveal:not(.reveal--stagger),
-  .reveal--stagger > * { opacity: 1; transform: none; }
+  .reveal--stagger > * { opacity: 1; transition: none; }
 }

@@ -1,0 +1,130 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() {
+      return request.auth != null;
+    }
+    function isAdmin() {
+      return signedIn() && exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+    }
+    // A string field no longer than `max` characters
+    function str(d, key, max) {
+      return d[key] is string && d[key].size() <= max;
+    }
+    // Same, but must not be empty
+    function req(d, key, max) {
+      return str(d, key, max) && d[key].size() > 0;
+    }
+    // Every new form submission starts as "new", stamped by the server
+    function freshEntry(d) {
+      return d.status == 'new' && d.createdAt == request.time;
+    }
+
+    // ---------- Contact form ----------
+    match /enquiries/{id} {
+      allow create: if
+        request.resource.data.keys().hasOnly([
+          'uid', 'name', 'company', 'phone', 'email', 'whatsapp', 'country',
+          'projectType', 'projectName', 'projectInfo', 'budget', 'status', 'createdAt'
+        ])
+        // Optional link to the signed-in client's account — only to your own
+        && (!('uid' in request.resource.data) || (signedIn() && request.resource.data.uid == request.auth.uid))
+        && req(request.resource.data, 'name', 120)
+        && str(request.resource.data, 'company', 120)
+        && req(request.resource.data, 'phone', 30)
+        && req(request.resource.data, 'email', 160)
+        && str(request.resource.data, 'whatsapp', 30)
+        && req(request.resource.data, 'country', 60)
+        && req(request.resource.data, 'projectType', 60)
+        && req(request.resource.data, 'projectName', 160)
+        && str(request.resource.data, 'projectInfo', 2000)
+        && req(request.resource.data, 'budget', 60)
+        && freshEntry(request.resource.data);
+
+      // Clients can see the enquiries linked to their own account
+      allow read: if isAdmin() || (signedIn() && resource.data.get('uid', '') == request.auth.uid);
+      allow delete: if isAdmin();
+      // Admins may only change the status
+      allow update: if isAdmin()
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status'])
+        && request.resource.data.status in ['new', 'contacted', 'closed'];
+    }
+
+    // ---------- Career form ----------
+    match /applications/{id} {
+      allow create: if
+        request.resource.data.keys().hasOnly([
+          'name', 'email', 'phone', 'role', 'experience', 'portfolio',
+          'message', 'cvPath', 'cvName', 'status', 'createdAt'
+        ])
+        && req(request.resource.data, 'name', 120)
+        && req(request.resource.data, 'email', 160)
+        && req(request.resource.data, 'phone', 30)
+        && req(request.resource.data, 'role', 80)
+        && req(request.resource.data, 'experience', 40)
+        && str(request.resource.data, 'portfolio', 300)
+        && str(request.resource.data, 'message', 2000)
+        && str(request.resource.data, 'cvPath', 200)
+        && (request.resource.data.cvPath == '' || request.resource.data.cvPath.matches('cvs/[^/]+'))
+        && str(request.resource.data, 'cvName', 120)
+        && freshEntry(request.resource.data);
+
+      allow read, delete: if isAdmin();
+      allow update: if isAdmin()
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status'])
+        && request.resource.data.status in ['new', 'contacted', 'closed'];
+    }
+
+    // ---------- Client & employee accounts ----------
+    match /users/{uid} {
+      function isOwner() {
+        return signedIn() && request.auth.uid == uid;
+      }
+
+      allow read: if isOwner() || isAdmin();
+
+      // Sign-up: your own profile only. Clients start active; employees wait for approval.
+      allow create: if isOwner()
+        && request.resource.data.keys().hasOnly(['name', 'email', 'phone', 'type', 'status', 'createdAt'])
+        && req(request.resource.data, 'name', 120)
+        && request.resource.data.email == request.auth.token.email
+        && req(request.resource.data, 'phone', 30)
+        && ((request.resource.data.type == 'client' && request.resource.data.status == 'active')
+          || (request.resource.data.type == 'employee' && request.resource.data.status == 'pending'))
+        && request.resource.data.createdAt == request.time;
+
+      // Owners may fix their name / phone; only admins change status (approve / block)
+      allow update: if
+        (isOwner()
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['name', 'phone'])
+          && req(request.resource.data, 'name', 120)
+          && req(request.resource.data, 'phone', 30))
+        || (isAdmin()
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status'])
+          && request.resource.data.status in ['pending', 'active', 'blocked']);
+
+      allow delete: if isAdmin();
+    }
+
+    // ---------- Who can use /admin ----------
+    // Documents are added by hand in the Firebase console (document ID = the user's UID).
+    // Owner accounts can add themselves the first time they open /admin (alphazahmad@gmail.com).
+    // Anyone else must be added by hand in the console.
+    match /admins/{uid} {
+      allow read: if signedIn() && request.auth.uid == uid;
+      allow create: if signedIn() && request.auth.uid == uid
+        && uid in ['5bia6naSAqOkCQ4InRpZPoK26Qd2']
+        && request.resource.data.keys().hasOnly(['email', 'createdAt'])
+        && request.resource.data.email == request.auth.token.email
+        && request.resource.data.createdAt == request.time;
+      allow update, delete: if false;
+    }
+
+    // Everything else is closed
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

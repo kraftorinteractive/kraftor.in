@@ -1,9 +1,15 @@
 import { Link } from 'react-router-dom'
+import TypeText from '../ui/TypeText'
+import Reveal from '../ui/Reveal'
 import './PageHeader.css'
 
+const TYPE_SPEED = 35 // ms per letter (heading) — same as every other typed heading
+const INFO_SPEED = 14 // ms per letter (info line types faster)
+
 /**
- * Header for every inner page:
- * yellow → orange grid banner (2 : 0.75) → breadcrumb (KRAFTOR / PAGE) → small heading → short info → optional filter (children).
+ * Header for every inner page. Everything here goes through the shared animation queue,
+ * so it plays strictly one after another:
+ * breadcrumb fades in → heading types → info line types → filter fades in → divider → then the page content.
  */
 export default function PageHeader({ crumb, title, text, children }) {
   return (
@@ -16,17 +22,18 @@ export default function PageHeader({ crumb, title, text, children }) {
       </div>
 
       <div className="container ph-head__body">
-        <nav className="ph-crumb" aria-label="Breadcrumb">
+        <Reveal as="nav" className="ph-crumb" aria-label="Breadcrumb">
           <Link to="/">Kraftor</Link>
           <span aria-hidden="true">/</span>
           <span aria-current="page">{crumb}</span>
-        </nav>
-        <h1 className="ph-head__title">{title}</h1>
-        {text && <p className="ph-head__text">{text}</p>}
-        {children && <div className="ph-head__filter">{children}</div>}
+        </Reveal>
+        {/* No `key`: these stay mounted, so switching a filter swaps the words without replaying the intro */}
+        <TypeText as="h1" className="ph-head__title" text={title} speed={TYPE_SPEED} />
+        {text && <TypeText as="p" className="ph-head__text" text={text} speed={INFO_SPEED} caret={false} />}
+        {children && <Reveal className="ph-head__filter">{children}</Reveal>}
 
         {/* Divider: hairline with a short brand accent */}
-        <div className="ph-divider" aria-hidden="true" />
+        <Reveal className="ph-divider" aria-hidden="true" />
       </div>
     </header>
   )

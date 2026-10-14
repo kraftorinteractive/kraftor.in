@@ -21,6 +21,13 @@ export default function ThemeToggle({ className = '' }) {
     }
   }, [theme])
 
+  // Keep every toggle on the page (menu + footer) showing the same icon
+  useEffect(() => {
+    const mo = new MutationObserver(() => setTheme(readTheme()))
+    mo.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] })
+    return () => mo.disconnect()
+  }, [])
+
   const dark = theme === 'dark'
   return (
     <button
