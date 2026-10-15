@@ -2,7 +2,9 @@ import {
   FiTarget, FiEye, FiBox, FiVideo, FiPenTool, FiCode, FiUsers, FiCheck, FiMapPin,
   FiGlobe, FiBookOpen, FiBriefcase, FiFilm, FiCheckCircle, FiArrowUpRight,
 } from 'react-icons/fi'
+import { useEffect, useState } from 'react'
 import FilterTabs from '../components/ui/FilterTabs'
+import { getCrew } from '../lib/public'
 import Reveal from '../components/ui/Reveal'
 import HScroller from '../components/ui/HScroller'
 import usePageTitle from '../hooks/usePageTitle'
@@ -22,7 +24,7 @@ const tabs = [
 const teamIcons = { cube: FiBox, video: FiVideo, pen: FiPenTool, code: FiCode, target: FiTarget, users: FiUsers }
 const workIcons = { web: FiGlobe, school: FiBookOpen, briefcase: FiBriefcase, film: FiFilm }
 
-const initials = (name) => name.split(' ').map((w) => w[0]).slice(0, 2).join('').toUpperCase()
+const initials = (name = '') => name.split(' ').map((w) => w[0]).slice(0, 2).join('').toUpperCase()
 
 /** Round photo, or a quiet initials circle until a photo is added. */
 function Avatar({ person, size = '' }) {
@@ -44,6 +46,21 @@ export default function About() {
 
   // Founder always; Head of Department once a name is added in data/about.js
   const leads = [{ person: founder, tag: 'Founder' }, ...(hod.name ? [{ person: hod, tag: 'Head of Department' }] : [])]
+
+  // Team members an admin chose to show (Admin → Users → "Show on crew page"); static list as fallback
+  const [liveCrew, setLiveCrew] = useState([])
+  useEffect(() => {
+    let alive = true
+    getCrew()
+      .then((list) => alive && setLiveCrew(list.map((m) => ({ name: m.name, role: m.title || 'Creative professional', photo: m.avatar }))))
+      .catch(() => {})
+    return () => {
+      alive = false
+    }
+  }, [])
+  // Leads already have their own cards above, so don't repeat them in the list
+  const leadNames = new Set(leads.map((l) => String(l.person.name).toLowerCase()))
+  const members = (liveCrew.length ? liveCrew : crew).filter((m) => !leadNames.has(String(m.name).toLowerCase()))
 
   return (
     <>
@@ -127,11 +144,11 @@ export default function About() {
               })}
             </Reveal>
 
-            {crew.length > 0 && (
+            {members.length > 0 && (
               <>
-                <SubHead text="Our crew" />
+                <SubHead text="Meet the crew" />
                 <Reveal stagger className="ab-crew">
-                  {crew.map((m, i) => (
+                  {members.map((m, i) => (
                     <div key={i} className="ab-member">
                       <Avatar person={m} />
                       <div>

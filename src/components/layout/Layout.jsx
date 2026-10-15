@@ -4,7 +4,8 @@ import Navbar from './Navbar'
 import PreFooter from './PreFooter'
 import Footer from './Footer'
 
-export default function Layout() {
+/** Site frame (navbar, page, pre-footer, footer). Used by the router, or directly with children (e.g. the admin sign-in). */
+export default function Layout({ children }) {
   const { pathname } = useLocation()
 
   // Scroll to top on page change (not on ?tab= changes)
@@ -16,9 +17,10 @@ export default function Layout() {
     <>
       <Navbar />
       <main>
-        <Outlet />
+        {children ?? <Outlet />}
       </main>
-      {pathname !== '/contact' && <PreFooter />}
+      {/* No "Have an idea?" banner on the contact form or the signed-in areas */}
+      {!['/contact', '/login', '/admin'].includes(pathname) && <PreFooter />}
       <Footer />
     </>
   )

@@ -13,15 +13,36 @@ import NotFound from './pages/NotFound'
 
 // Admin panel is only for the team — load it separately so visitors never download it
 const Admin = lazy(() => import('./pages/Admin'))
+const DocView = lazy(() => import('./pages/DocView'))
+const Portal = lazy(() => import('./pages/Portal'))
 
 export default function App() {
   return (
     <Routes>
+      {/* Printable invoice / quotation / payslip — no site chrome so it prints cleanly */}
+      <Route
+        path="doc/:kind/:id"
+        element={
+          <Suspense fallback={null}>
+            <DocView />
+          </Suspense>
+        }
+      />
+      {/* App-style dashboards (own sidebar + top bar, no site navbar/footer).
+          Admin is reached by tapping the footer logo 3 times; clients & employees land on /dashboard after signing in. */}
       <Route
         path="admin"
         element={
           <Suspense fallback={null}>
             <Admin />
+          </Suspense>
+        }
+      />
+      <Route
+        path="dashboard"
+        element={
+          <Suspense fallback={null}>
+            <Portal />
           </Suspense>
         }
       />

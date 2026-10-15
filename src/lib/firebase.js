@@ -6,7 +6,7 @@
  * Firebase is loaded lazily, so visitors who never submit a form don't download it.
  */
 
-const config = {
+export const config = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
   authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
   projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
@@ -16,8 +16,6 @@ const config = {
 }
 
 export const isFirebaseReady = Boolean(config.apiKey && config.projectId && config.appId)
-/** CV uploads need Cloud Storage, which is optional (it needs the Blaze plan on new projects). */
-export const hasStorage = isFirebaseReady && Boolean(config.storageBucket)
 
 let appPromise = null
 
@@ -31,11 +29,6 @@ export function getApp() {
 export async function getDb() {
   const [{ getFirestore }, app] = await Promise.all([import('firebase/firestore'), getApp()])
   return getFirestore(app)
-}
-
-export async function getStore() {
-  const [{ getStorage }, app] = await Promise.all([import('firebase/storage'), getApp()])
-  return getStorage(app)
 }
 
 export async function getAuthClient() {

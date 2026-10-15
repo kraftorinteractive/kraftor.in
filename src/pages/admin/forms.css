@@ -1,0 +1,76 @@
+/* ---------- Admin create / edit forms — same open, hairline style as the rest ---------- */
+.aform { padding: 4px 0 24px; border-bottom: 1px solid var(--line); }
+.aform__head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+.aform__head strong { font-size: var(--fs-sub); color: var(--ink); }
+.aform .form__submit { margin-top: 20px; }
+
+/* Line items */
+.alines { display: grid; gap: 8px; margin: 22px 0; }
+.alines__head, .alines__row { display: grid; grid-template-columns: 1fr 64px 90px 90px 28px; gap: 8px; align-items: center; }
+.alines__head span { font-size: var(--fs-xs); color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; }
+.alines__row input {
+  width: 100%;
+  min-width: 0;
+  font: inherit;
+  font-size: 16px;
+  color: var(--ink);
+  background: transparent;
+  border: 0;
+  border-bottom: 1.5px solid var(--line);
+  padding: 8px 0;
+}
+.alines__row input:focus { outline: none; border-bottom-color: var(--orange); }
+.alines__amt { font-size: var(--fs-sm); font-weight: 600; text-align: right; color: var(--ink); }
+.alines .pbtn { justify-self: start; }
+
+@media (max-width: 599px) {
+  .alines__head { display: none; }
+  .alines__row { grid-template-columns: 1fr 1fr 28px; padding-bottom: 8px; border-bottom: 1px dashed var(--line); }
+  .alines__row input:first-child { grid-column: 1 / -1; }
+  .alines__amt { grid-column: 1 / 3; text-align: left; }
+  .alines__row .aedit__x { grid-column: 3; grid-row: 2; }
+}
+
+/* Totals */
+.atotals { margin: 20px 0 0; display: grid; gap: 6px; max-width: 320px; margin-left: auto; }
+.atotals div { display: flex; justify-content: space-between; gap: 12px; font-size: var(--fs-sm); }
+.atotals dt { color: var(--muted); }
+.atotals dd { margin: 0; color: var(--ink); font-weight: 500; }
+.atotals__total { padding-top: 8px; border-top: 1px solid var(--line); }
+.atotals__total dt, .atotals__total dd { color: var(--ink); font-weight: 700; font-size: var(--fs-body); }
+
+/* Razorpay payment link on an invoice */
+.apay { display: grid; gap: 8px; margin: 4px 0 14px; padding: 12px 0; border-top: 1px dashed var(--line); border-bottom: 1px dashed var(--line); }
+.apay__title { margin: 0; font-size: var(--fs-sm); font-weight: 600; color: var(--ink); }
+.apay__steps { margin: 0; padding-left: 18px; display: grid; gap: 4px; font-size: var(--fs-sm); color: var(--muted); }
+.apay__steps a { color: var(--orange); font-weight: 600; }
+.apay__copy { border: 1px solid var(--line); background: none; border-radius: 6px; padding: 1px 6px; font: inherit; font-size: var(--fs-xs); color: var(--ink); cursor: pointer; }
+.apay__copy:hover { border-color: var(--orange-mid); color: var(--orange); }
+
+/* Project editor */
+.aedit { display: grid; gap: 14px; margin: 6px 0 4px; padding-top: 14px; border-top: 1px dashed var(--line); }
+.aedit__row { display: flex; flex-wrap: wrap; gap: 10px 16px; }
+.aedit__phase { display: grid; gap: 6px; }
+.aedit__phasehead { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.aedit__phasehead strong { color: var(--ink); font-size: var(--fs-sm); margin-right: auto; }
+.aedit__tasks { list-style: none; margin: 0; padding: 0; }
+.aedit__tasks li { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 5px 0; font-size: var(--fs-sm); color: var(--ink); }
+.aedit__tasks li.is-done span { color: var(--muted); text-decoration: line-through; }
+.aedit__tasks svg { color: #16a34a; vertical-align: -2px; }
+.aedit__x { border: 0; background: none; color: var(--muted); padding: 4px; display: grid; place-items: center; cursor: pointer; border-radius: 50%; }
+.aedit__x:hover { color: #d92d32; background: var(--surface-2); }
+.aedit__add { display: flex; gap: 8px; align-items: center; }
+.aedit__add input {
+  flex: 1;
+  min-width: 0;
+  font: inherit;
+  font-size: 16px;
+  color: var(--ink);
+  background: transparent;
+  border: 0;
+  border-bottom: 1.5px solid var(--line);
+  padding: 8px 0;
+}
+.aedit__add input[type='date'] { flex: 0 0 150px; }
+.aedit__add input:focus { outline: none; border-bottom-color: var(--orange); }
+.aedit__add--phase { padding-top: 6px; }

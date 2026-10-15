@@ -1,5 +1,63 @@
 /* ---------- Account (clients & employees) — same open, minimal style as Contact ---------- */
 .acct { max-width: 560px; }
+.acct--wide { max-width: 960px; }
+.acct-me__avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+.acct-me__avatar { overflow: hidden; }
+
+/* Clock in card (employee) */
+.pclock {
+  display: grid;
+  gap: 14px;
+  padding: 18px 0 22px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid var(--line);
+}
+.pclock__now { display: flex; flex-direction: column; gap: 4px; }
+.pclock__now small { font-size: var(--fs-xs); color: var(--muted); font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; }
+.pclock__now strong { font-size: var(--fs-sub); color: var(--ink); }
+.pclock__now .muted { font-size: var(--fs-sm); display: inline-flex; align-items: center; gap: 4px; }
+.pclock__act { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.pclock__act .sel { min-width: 180px; }
+
+/* Project phases & tasks */
+.pphase { margin: 4px 0 14px; }
+.pphase__name { margin: 0 0 6px; font-weight: 600; color: var(--ink); font-size: var(--fs-sm); }
+.pphase__name small { font-weight: 400; color: var(--muted); }
+.pphase__empty { margin: 0; font-size: var(--fs-sm); }
+.ptasks { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+.ptasks li { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 6px 0; font-size: var(--fs-sm); }
+.ptasks li small { color: var(--muted); font-size: var(--fs-xs); white-space: nowrap; }
+.ptasks label, .ptasks__static { display: inline-flex; align-items: center; gap: 10px; color: var(--ink); cursor: pointer; }
+.ptasks input { width: 17px; height: 17px; accent-color: var(--orange); }
+.ptasks__dot { width: 17px; height: 17px; border-radius: 50%; border: 1.5px solid var(--line); display: grid; place-items: center; font-size: 0.7rem; color: #fff; flex-shrink: 0; }
+.ptasks li.is-done .ptasks__dot { background: #16a34a; border-color: #16a34a; }
+.ptasks li.is-done span:last-child, .ptasks li.is-done label span { color: var(--muted); text-decoration: line-through; }
+.pform { margin-bottom: 8px; }
+
+/* Joining (employee onboarding) */
+.ob-status { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-bottom: 18px; border-bottom: 1px solid var(--line); }
+.ob-status div { display: flex; flex-direction: column; gap: 2px; }
+.ob-status small { font-size: var(--fs-xs); color: var(--muted); font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; }
+.ob-status strong { font-size: var(--fs-sub); color: var(--ink); }
+.ob-status .muted { font-size: var(--fs-sm); }
+.ob-steps { margin: 0 0 14px; padding: 0; list-style: none; counter-reset: ob; display: grid; gap: 8px; }
+.ob-steps li { counter-increment: ob; display: flex; align-items: center; gap: 10px; font-size: var(--fs-sm); color: var(--muted); }
+.ob-steps li::before { content: counter(ob); width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center; border: 1.5px solid var(--line); font-size: 0.72rem; font-weight: 700; flex-shrink: 0; }
+.ob-steps li.is-done { color: var(--ink); }
+.ob-steps li.is-done::before { content: '✓'; border-color: transparent; background: #16a34a; color: #fff; }
+.ob-ups { display: grid; border-top: 1px solid var(--line); }
+.ob-up { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; padding: 12px 0; border-bottom: 1px solid var(--line); }
+.ob-up__label { font-size: var(--fs-sm); color: var(--ink); display: inline-flex; align-items: center; gap: 8px; }
+.ob-up__ok { color: #16a34a; }
+.ob-up .field__err { width: 100%; }
+.pbtn.is-disabled { opacity: 0.5; pointer-events: none; }
+.ob-docs { border: 0; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 4px 18px; }
+.ob-docs legend { font-size: var(--fs-xs); font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; padding: 0; }
+.form__grid > .check { display: inline-flex; align-items: flex-start; gap: 8px; font-size: var(--fs-sm); color: var(--muted); cursor: pointer; }
+.form__grid > .check a { color: var(--orange); font-weight: 600; }
+.form__grid > .check input { margin-top: 3px; width: 16px; height: 16px; accent-color: var(--orange); flex-shrink: 0; }
+.pnote-sm { font-size: var(--fs-sm); margin: 0; }
+.pnote-sm a, .pnote a { color: var(--orange); font-weight: 600; }
 .acct-form__grid { grid-template-columns: 1fr !important; }
 
 .acct-link {
